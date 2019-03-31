@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!-- 数据库驱动 -->
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <!-- 数据库连接的URL -->
+        <property name="connection.url">jdbc:mysql://localhost:3306/ctrl_i</property>
+        <!-- 数据库连接用户名 -->
+        <property name="connection.username">cadmin</property>
+        <!-- 编码方式 -->
+        <property name="connection.characterEncoding">utf-8</property>
+        <!-- 数据库连接密码 -->
+        <property name="connection.password">123456</property>
+        <!-- Hibernate方言 -->
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <!-- 打印SQL语句 -->
+        <property name="show_sql">false</property>
+
+        <!-- 配置连接池 -->
+        <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
+        <property name="hibernate.connection.provider_class">
+            org.hibernate.c3p0.internal.C3P0ConnectionProvider
+        </property>
+
+        <property name="c3p0.acquire_increment">1</property>
+        <property name="c3p0.idle_test_period">300</property>
+        <property name="c3p0.max_size">20</property>
+        <property name="c3p0.max_statements">100</property>
+        <property name="c3p0.min_size">5</property>
+        <property name="c3p0.timeout">90</property>
+        <property name="c3p0.preferredTestQuery ">select 1 from user where id=1</property>
+        <property name="c3p0.idleConnectionTestPeriod ">18000</property>
+        <property name="c3p0.maxIdleTime">25000</property>
+        <property name="c3p0.testConnectionOnCheckout">false</property>
+        <mapping class="com.ctrl_i.springboot.entity.TestUserEntity"/>
+    </session-factory>
+</hibernate-configuration>
