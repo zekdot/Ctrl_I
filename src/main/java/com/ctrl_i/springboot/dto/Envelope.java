@@ -9,7 +9,7 @@ public class Envelope {
     private Object obj;//携带对象
     public static Envelope dbError=new Envelope(-1,"数据库错误！",null);//数据库错误
     public static Envelope systemError=new Envelope(-2,"系统错误！",null);;//系统错误
-        public static Envelope success = new Envelope(0, "success", null);//成功
+    public static Envelope success = new Envelope(0, "success", null);//成功
     public int getCode() {
         return code;
     }
@@ -29,20 +29,18 @@ public class Envelope {
         this.obj = obj;
     }
     public Envelope(int code,String message,Object obj) {
-        // TODO Auto-generated constructor stub
         this.code=code;
         this.message=message;
         this.obj=obj;
     }
     public Envelope() {
-        // TODO Auto-generated constructor stub
     }
 
-        public Envelope(Object obj) {
-            this.code = 0;
-            this.message = "success";
-            this.obj = obj;
-        }
+    public Envelope(Object obj) {
+        this.code = 0;
+        this.message = "success";
+        this.obj = obj;
+    }
     @Override
     public String toString(){
         JSONObject jsonObject=new JSONObject();

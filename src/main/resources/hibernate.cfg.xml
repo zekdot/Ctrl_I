@@ -35,5 +35,7 @@
         <property name="c3p0.maxIdleTime">25000</property>
         <property name="c3p0.testConnectionOnCheckout">false</property>
         <mapping class="com.ctrl_i.springboot.entity.TestUserEntity"/>
+        <mapping class="com.ctrl_i.springboot.entity.ArticleEntity"/>
+        <mapping class="com.ctrl_i.springboot.entity.UserEntity"/>
     </session-factory>
 </hibernate-configuration>
