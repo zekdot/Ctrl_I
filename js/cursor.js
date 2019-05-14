@@ -2,17 +2,57 @@ window.cursor = {
     left: 0,
     top: 0
 }
+const DOWN_DISTANCE = 30;
 const OPEN_TIME = 3000;
-var openClock;  //计时器
-var clockLeft;  //剩余时间
-var curElement; //当前元素
-var oriColor;   //当前元素的原始颜色
-function openArticle(ele){
-    return function(){
-        // 从r转换到g
+//计时器
+var openClock;  
+//剩余时间
+var clockLeft;  
+//当前元素
+var curElement = null; 
+//当前元素的原始颜色
+var oriColor;   
 
+/**
+ * 处理按钮，同时背景从R转换到G
+ * @param ele 文章元素
+ * @param fun 午时到了之后的回调函数
+ */
+function handleButton(ele,fun){
+    return function(){
+        // 时间减去100ms
         clockLeft -= 100;
-        if(clockLeft <= 0){ //如果午时已到
+
+        var point = getPoint(ele);    //获得最节点？
+        var divx1 = point.l; //获得最左
+        var divy1 = point.t;  //获得最上
+        // // 获得最左
+        // var divx1 = curElement.offsetLeft;
+        // // 获得最上
+        // var divy1 = curElement.offsetTop;   
+
+        // 获得最右
+        var divx2 = divx1 + curElement.offsetWidth; 
+        // 获得最下
+        var divy2 = divy1 + curElement.offsetHeight; 
+
+        //console.log('divx1'+divx1+' divy1'+divy1+' curElement.offsetWidth'+curElement.offsetWidth+' curElement.offsetHeight'+curElement.offsetHeight);
+        //console.log('curElement.offsetLeft'+curElement.offsetLeft+' curElement.offsetTop'+curElement.offsetTop+' curElement.offsetWidth'+curElement.offsetWidth+' curElement.offsetHeight'+curElement.offsetHeight);
+        console.log(clockLeft);
+        // 如果当前光标位于处理元素之外
+        if( cursor.left < divx1 || cursor.left > divx2 || cursor.top < divy1 || cursor.top > divy2){
+            //console.log('退出')
+            // 清除计时器
+            clearInterval(openClock);
+            // 恢复原来的颜色
+            curElement.style.background = oriColor;
+            // 清除当前处理元素
+            curElement = null;
+            // 退出处理函数
+            return;
+        }
+        //如果午时已到
+        if(clockLeft <= 0){ 
             //alert(ele.parentNode.id.substr(2))
             // aId = 
             // $.ajax({
@@ -26,27 +66,39 @@ function openArticle(ele){
             //     }
             // });
             // TODO 跳转页面
-            $("#content").load('article.html')
-            window.article_id = ele.id.substr(2);
-            clearInterval(openClock);//清除计时器
+            
+            // 执行回调函数
+            fun();
+            //清除计时器
+            clearInterval(openClock);
+            // 清除当前处理元素
+            curElement = null;
         }
-        curColorValue = parseInt(clockLeft / OPEN_TIME * 255);    //计算颜色值
+        // 计算颜色值
+        curColorValue = parseInt(clockLeft / OPEN_TIME * 255);    
+        // 设置颜色值
         ele.style.background = 'rgb(' + curColorValue +', ' + (255 - curColorValue) + ', 0)';
     }
 }
-
-function getPostParent(ele){
+/**
+ * 根据类名获取特定的父亲节点
+ * @param ele 元素
+ * @param parName 父亲类名
+ */
+function getParentByClassName(ele,parName){
     parNode = ele;
-    while(parNode != null && parNode.nodeName != '#document'){
-        if(parNode.className == 'blog-post'){
-            return parNode;
+    while(parNode != null && parNode.nodeName != '#document'){  //如果当前元素不为空并且也没有到顶级
+        if(parNode.className == parName){   //如果找到了需要的父亲节点
+            return parNode; //返回父亲节点
         }
         parNode = parNode.parentNode;  //获取父节点
         //console.log(parNode)
     }
-    return null;
+    return null;    //没有找到父亲节点
 }
-
+/**
+ * 移动光标
+ */
 function moveTarget() {
 
     // Move the model target to where we predict the user is looking to
@@ -78,27 +130,38 @@ function moveTarget() {
         var scrollHeight = $(document).height();
        //浏览器窗口高度
         var windowHeight = $(this).height();
-        //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
-        if (scrollTop + windowHeight == scrollHeight) {
-            if(window.curLastId == -1){
-                ;   //没有更多文章
-            }else{
-                getNextPage(window.curLastId); //获取下一页的数据
+        // 如果是文章列表层级
+        if(window.curLevel == 0){
+            //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
+            if (scrollTop + windowHeight == scrollHeight) {
+                if(window.curLastId == -1){
+                    ;   //没有更多文章
+                }else{
+                    //获取下一页的数据
+                    getNextPage(window.curLastId); 
+                }
             }
         }
-        var temp=$('html,body').scrollTop();//.animate({scrollTop:cursor.top+$(window).height()/1024*1024},'slow');
-        $('html,body').scrollTop(temp+30)
-        if(curElement != null){ //如果有元素在计时
-            curElement.style.background = oriColor; //恢复原来的颜色
-            curElement = null;  //清空当前元素
-            clearInterval(openClock);   //清除历史计时器
+        // 获取当前的滚动条位置
+        var temp=$('html,body').scrollTop();//.animate({scrollTop:cursor.top+$(window).height()/1024*1024},'slow')
+        //向下移动一段距离
+        $('html,body').scrollTop(temp + DOWN_DISTANCE);     
+        //如果有元素在计时
+        if(curElement != null){ 
+            //恢复原来的颜色
+            curElement.style.background = oriColor; 
+            //清空当前元素
+            curElement = null;  
+            //清除历史计时器
+            clearInterval(openClock);   
         }
+        // 如果移动就不再判断当前元素了
         return ;
     }
     if(cursor.top < $(window).height()*0.20 + $(window).scrollTop()){
         //console.log('up')
         var temp=$('html,body').scrollTop()//.animate({scrollTop:cursor.top+$(window).height()/1024*1024},'slow');
-        $('html,body').scrollTop(temp-30)
+        $('html,body').scrollTop(temp-DOWN_DISTANCE);
         if(curElement != null){ //如果有元素在计时
                 curElement.style.background = oriColor; //恢复原来的颜色
                 curElement = null;  //清空当前元素
@@ -106,50 +169,128 @@ function moveTarget() {
              }
         return ;
     }
-    var ele = document.elementFromPoint(cursor.left,cursor.top - $(window).scrollTop());    //获取元素
+    //如果当前有元素正在处理之中
+    if(curElement != null){ 
+        //直接退出
+        return; 
+    }
+    //获取当前元素
+    var ele = document.elementFromPoint(cursor.left,cursor.top - $(window).scrollTop());    
    //console.log('left:'+cursor.left+' '+'top:'+cursor.top)
     //console.log(ele)
-    ele = getPostParent(ele);
-    //console.log(ele)
-    if(curElement != null){
-        var divx1 = curElement.offsetLeft;
-        var divy1 = curElement.offsetTop;
-        var divx2 = curElement.offsetLeft + curElement.offsetWidth;
-        var divy2 = curElement.offsetTop + curElement.offsetHeight;
-        if( cursor.left < divx1 || cursor.left > divx2 || cursor.top < divy1 || cursor.top > divy2){
-            //如果离开，则执行。。
-            //curElement = null;
-            ;
-        }else{
-            return;
-        }
-    }
-    //console.log(curElement)
-    if(ele != null){    //如果元素不为空
+    // 如果当前位于文章标题列表页面
+    if(window.curLevel == 0){
+        // 找到顶层父亲
+        ele = getParentByClassName(ele,'blog-post');    
+        //如果元素不为空
+        if(ele != null){    
+            //设置剩余时间
+            clockLeft = OPEN_TIME;   
+
+            // if(curElement != null){ //如果有元素在计时
+            //     curElement.style.background = oriColor; //恢复原来的颜色
+            // }
+            //保存原来的颜色
+            oriColor = ele.style.background;    
+            //设置当前处理元素
+            curElement = ele;
+            //console.log(curElement)
+            //clearInterval(openClock);   //清除历史计时器
+
+            //开启处理，每100ms检查一次
+            openClock = setInterval(handleButton(curElement,function(){
+                //跳转到文章页面
+                jumpToArt(curElement.id.substr(2));
+                //$("#content").load('article.html')
+                //window.articleId = ;
+            }),100);   
+
+            //curElement = ele;   //重新设置当前计时的标签
+
         
-        if(curElement != ele){   //如果是标题并且没有在计时当中
-            clockLeft = OPEN_TIME;   //设置剩余时间
-            if(curElement != null){ //如果有元素在计时
-                curElement.style.background = oriColor; //恢复原来的颜色
-            }
-            oriColor = ele.style.background;    //保存原来的颜色
-            clearInterval(openClock);   //清除历史计时器
-            openClock = setInterval(openArticle(ele),100);   //每100ms检查一次
-
-            curElement = ele;   //重新设置当前计时的标签
-
-        }
             //console.log(ele)
             //console.log(ele.className);
             //ele.style.background = 'yellow';
+        }
     }
-     else{
-             if(curElement != null){ //如果有元素在计时
-                curElement.style.background = oriColor; //恢复原来的颜色
-                curElement = null;  //清空当前元素
-                clearInterval(openClock);   //清除历史计时器
-             }
+    // 如果当前位于文章详情页面
+    if(window.curLevel == 1){
+         // 找到顶层父亲
+        ele = getParentByClassName(ele,'single-middle');    
+        //如果元素不为空
+        if(ele != null){    
+            //设置剩余时间
+            clockLeft = OPEN_TIME;   
+
+            // if(curElement != null){ //如果有元素在计时
+            //     curElement.style.background = oriColor; //恢复原来的颜色
+            // }
+            //保存原来的颜色
+            oriColor = ele.style.background;    
+            //设置当前处理元素
+            curElement = ele;
+            //console.log(curElement)
+            //clearInterval(openClock);   //清除历史计时器
+
+            //开启处理，每100ms检查一次
+            openClock = setInterval(handleButton(curElement,function(){
+                // 跳转到文章列表页面
+                backArtList(window.articleId)
+                //跳转到文章页面
+                //jumpToArt(curElement.id.substr(2));
+                //$("#content").load('article.html')
+                //window.articleId = ;
+            }),100);   
+
+            //curElement = ele;   //重新设置当前计时的标签
+
+        
+            //console.log(ele)
+            //console.log(ele.className);
+            //ele.style.background = 'yellow';
+        }
+    }
+    
+    //console.log(ele)
+    // if(curElement != null){
+    //     var divx1 = curElement.offsetLeft;
+    //     var divy1 = curElement.offsetTop;
+    //     var divx2 = curElement.offsetLeft + curElement.offsetWidth;
+    //     var divy2 = curElement.offsetTop + curElement.offsetHeight;
+    //     if( cursor.left < divx1 || cursor.left > divx2 || cursor.top < divy1 || cursor.top > divy2){
+    //         //如果离开，则执行。。
+    //         //curElement = null;
+    //         ;
+    //     }else{
+    //         return;
+    //     }
+    // }
+    // //console.log(curElement)
+    // if(ele != null){    //如果元素不为空
+        
+    //     if(curElement != ele){   //如果是标题并且没有在计时当中
+    //         clockLeft = OPEN_TIME;   //设置剩余时间
+    //         if(curElement != null){ //如果有元素在计时
+    //             curElement.style.background = oriColor; //恢复原来的颜色
+    //         }
+    //         oriColor = ele.style.background;    //保存原来的颜色
+    //         clearInterval(openClock);   //清除历史计时器
+    //         openClock = setInterval(openArticle(ele),100);   //每100ms检查一次
+
+    //         curElement = ele;   //重新设置当前计时的标签
+
+    //     }
+    //         //console.log(ele)
+    //         //console.log(ele.className);
+    //         //ele.style.background = 'yellow';
+    // }
+    //  else{
+    //          if(curElement != null){ //如果有元素在计时
+    //             curElement.style.background = oriColor; //恢复原来的颜色
+    //             curElement = null;  //清空当前元素
+    //             clearInterval(openClock);   //清除历史计时器
+    //          }
              
-         }
+    //      }
     
 }

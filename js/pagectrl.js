@@ -1,12 +1,55 @@
 window.curLastId = 0;  //当前的最后一篇文章的id，用于翻页
+window.curLevel = 0;    //当前页面层级 0-文章列表页面 1-文章具体页面
+//window.curReadId = -1;  //当前阅读的文章id
+/**
+ * 获取某元素以浏览器左上角为原点的坐标
+ * @param 元素
+ * @return JSON对象，t--最左坐标,l--最右坐标
+ */
+function getPoint(obj) { 
+    // 获取该元素对应父容器的上边距
+    var t = obj.offsetTop; 
+    // 对应父容器的上边距
+    var l = obj.offsetLeft; 
+    // 判断是否有父容器，如果存在则累加其边距
+    while (obj = obj.offsetParent) {//等效 obj = obj.offsetParent;while (obj != undefined)
+        // 叠加父容器的上边距
+        t += obj.offsetTop; 
+        // 叠加父容器的左边距
+        l += obj.offsetLeft; 
+    }
+    // 返回计算结果
+    return {'t':t,'l':l};
+}
 /**
 * 跳转到某一文章页
 * @param id
 */
 function jumpToArt(id){
     //window.location.href='article.html?id='+id;
+    // 载入文章HTML
     $("#content").load('article.html')
-    window.article_id = id;
+    //设置当前文章id
+    window.articleId = id; 
+    //设置当前层级位于文章具体页面
+    window.curLevel = 1;    
+    //window.curReadId = id; //设置当前的阅读id
+}
+/**
+ * 返回文章列表对应锚点处
+ * @param 文章id
+ */
+function backArtList(id){
+    // 载入文章列表HTML
+    $("#content").load('list.html');
+    // 设置当前层级位于文章列表页面
+    window.curLevel = 0;
+    // 获取文章块对应的到顶部的距离
+    var art = document.getElementById('a_' + id);
+    // 获取距离
+    var point = getPoint(art);
+    // 滑动到对应的位置
+    $('html,body').scrollTop(point);
 }
 /**
  * 将获取的文章json填充到页面当中去

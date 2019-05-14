@@ -1,14 +1,14 @@
  <script type="text/javascript">
         
-	 	function back(){
-	 	    $('#content').load('list.html');//location.href="/blog.html";
-		}
+	 // 	function back(){
+	 // 	    $('#content').load('list.html');//location.href="/blog.html";
+		// }
 		jQuery(document).ready(function($) {
 			//console.log(l)
 		    //var url=window.location.href; //获取url
 		    //console.log(window.article_id)
 		    //id=getParam(url)['id']  //获取传过来的id
-		    id = window.article_id;
+		    id = window.articleId;
 		    //alert(id)
 			$(".scroll").click(function(event){		
 				event.preventDefault();
@@ -59,12 +59,14 @@
 					<div class="clearfix"> </div>
 				</div>
 				<div id="a_content"></div>
-				<div class="single-middle" onclick="back()">
+				<div class="single-middle" onclick="backArtList(window.articleId)">
+      
 				<ul class="social-share">
 					<li><span>BACK</span></li>			
 				</ul>
 				<i class="arrow"> </i>
 				<div class="clearfix"> </div>
+  
 			</div>
 
 		</div>
