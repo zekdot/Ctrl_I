@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Ctrl_i系统注册</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+    <link rel="stylesheet" type="text/css" href="css/login.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+</head>
+<body>
+<div class="main">
+
+    <div class="loginheader">
+
+        <div class="logintitle"><h1>Ctrl_I<br/>用户注册</h1></div>
+
+    </div>
+
+    <form>
+
+        <div class="loginform">
+
+            <div class="loginform_row">
+
+                <label>用户名:</label>
+
+                <input type="text" class="loginform_input" id="username" />
+
+            </div>
+
+            <div class="loginform_row">
+
+                <label>输入密码:</label>
+
+                <input type="password" class="loginform_input" id="password" />
+
+            </div>
+            <div class="loginform_row">
+
+                <label>再次输入密码:</label>
+
+                <input type="password" class="loginform_input" id="password2" />
+
+            </div>
+
+            <div class = "loginform_row">
+
+                <label>邮箱:</label>
+
+                <input type = "text" class="loginform_input_validationCode" id = "email"/>
+
+
+            </div>
+
+            <div class="loginform_row">
+
+                <span class = "returnInfo"></span>
+                <button class="loginform_submit" id='sub'>注册</button>
+
+            </div>
+            <div class="loginform_row">
+                <a href="login.html">已有账号</a>
+            </div>
+
+            <div class="clear"></div>
+
+        </div>
+
+    </form>
+
+</div>
+<script type="text/javascript">
+    $("#sub").click(function(){
+        if(checkInput()) {
+            //$("form").action("/RegisterServlet");
+            data = {'username':$('#username').val(), 'password':$('#password').val(), 'email':$('#email').val()}
+            $.post('http://localhost:8082/user/register',data,function(str){
+                //alert(str)
+                res = eval('('+str+')');
+                if(res.code != 0){
+                    alert(res.message);
+                }else{
+                    alert('注册成功，请激活邮箱后登录！');
+                    window.location.href = 'login.html';
+                }
+            });
+            return false;
+        }else{
+            return false;
+        }
+    });
+
+    function checkInput(){
+
+        //判断用户名
+
+        if($("#username").val() == null || $("#username").val() == ""){
+
+            alert("用户名不能为空");
+
+            $("#username").focus();
+
+            return false;
+
+        }
+
+        //判断密码
+
+        if($("#password").val() == null || $("#password").val() == ""){
+
+            alert("密码不能为空");
+
+            $("#password").focus();
+
+            return false;
+
+        }
+        if($("#password2").val() == null || $("#password2").val() == ""){
+
+            alert("请再次输入密码");
+
+            $("#password2").focus();
+
+            return false;
+
+        }
+
+        if(!($("#password").val() == $("#password2").val())){
+            alert("两次输入的密码不一致");
+            return false;
+
+
+        }
+
+        //判断邮箱
+
+        if($("#email").val() == null || $("#email").val() == ""){
+
+            alert("邮箱不能为空");
+
+            $("#email").focus();
+
+            return false;
+
+        }
+        if(!isEmail($("#email").val())){
+            alert("邮箱格式不正确！")
+             return false;
+        }
+
+
+        return true;
+
+    }
+    function isEmail(str){
+        var reg = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/;
+        return reg.test(str);
+    }
+</script>
+
+</body>
+</html>

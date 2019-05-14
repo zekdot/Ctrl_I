@@ -1,0 +1,71 @@
+ <script type="text/javascript">
+        
+	 	function back(){
+	 	    $('#content').load('list.html');//location.href="/blog.html";
+		}
+		jQuery(document).ready(function($) {
+			//console.log(l)
+		    //var url=window.location.href; //获取url
+		    //console.log(window.article_id)
+		    //id=getParam(url)['id']  //获取传过来的id
+		    id = window.article_id;
+		    //alert(id)
+			$(".scroll").click(function(event){		
+				event.preventDefault();
+				$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
+			});
+			function putArt(str){
+			    data=eval('('+str+')');
+                if(data.code!=0){
+                    if(data.code==1){
+                        window.location.href="/404.html";
+                        return;
+                    }
+                    alert(data.message);
+                    return;
+                }else{
+                    art=data.object
+                    $('#a_cover').attr('src','/'+art.cover);
+                    $('#a_time').html('<span><i> </i> '+art.time)
+                    $('#a_readNum').html('<span><i class=\'four\'> </i></span>'+art.readNum)
+                    $('#a_title').html(art.title)
+                    $('#a_content').html(art.content)
+                    $('#a_author').html(art.author)
+                }
+			}
+			$.get('http://localhost:8082/article/info',{'id':id},putArt)  //请求后台数据
+		});
+		
+		//
+	</script>
+
+	<div class="content">
+		<div class="container">
+			<div class="single">				
+				<!-- head-section -->
+				<div class="head-section text-center">
+					<h2>blog post</h2>
+					<span> </span>
+				</div>
+					<!-- /head-section -->	
+				<div class="single-top">
+					<img id="a_cover" alt=""/>
+				</div>
+				<div class="top-single">
+				<h2 id="a_title"></h2> <h4 id="a_author"></h4>
+				<div class="grid-single">
+					<div class="single-one" id="a_time"></div></li>
+					<div class="single-one" id="a_readNum"></div>
+					<div class="clearfix"> </div>
+				</div>
+				<div id="a_content"></div>
+				<div class="single-middle" onclick="back()">
+				<ul class="social-share">
+					<li><span>BACK</span></li>			
+				</ul>
+				<i class="arrow"> </i>
+				<div class="clearfix"> </div>
+			</div>
+
+		</div>
+	</div>

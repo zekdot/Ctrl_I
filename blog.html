@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Blog</title>
+	<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
+	<!-- Custom Theme files -->
+	<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+	<!-- Custom Theme files -->
+	<script src="js/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.15.3"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@0.8.4"></script>
+	<script src="js/vendor/clmtrackr.js"></script>
+    <script src="js/globals.js"></script>
+    <script src="js/facetracker.js"></script>
+    <script src="js/itrack.js"></script>
+<!--     <script src="js/test.js"></script> -->
+    <script type="text/javascript" src="js/cursor.js"></script>
+    <!-- 情绪识别相关API -->
+    <script type="text/javascript" src="js/facepp_sdk/jquery.min.js"></script>
+    <script type="text/javascript" src="js/facepp_sdk/exif.js"></script>
+    <script type="text/javascript" src="js/facepp_sdk/facepp_sdk.js"></script>
+    <script type="text/javascript" src="js/emotion.js"></script>
+    <script type="text/javascript" src="js/gesture.js"></script>
+    <script src="js/param.js"></script>
+
+    <script type="text/javascript" src="js/pagectrl.js"></script>
+	<!-- Custom Theme files -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="Metushi Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<!--webfont-->
+	<script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $(".scroll").click(function(event){
+                event.preventDefault();
+                $('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
+            });
+            $("#content").load('list.html')
+            // 加载模型
+        	itrack.loadModel();
+        	// 目标可见
+    		$('#target').css('opacity', '0.9');
+    		// 运行模型
+    		setInterval(moveTarget, 100);
+    		//setInterval(emotionRun,5000);
+            //setInterval(gestureRun,1000);
+        });
+
+        function hiddenDebug(){
+        	$('#face').css('display','none');
+        	$('#eyes').css('display','none');
+        	$('#webcam').css('display','none');
+        	$('#overlay').css('display','none');
+        }
+        // function putArt(str){
+        //     //alert(str)
+        //     data=eval('('+str+')');
+        //     if(data.code!=0){
+        //         alert(data.message);
+        //         return;
+        //     }else{
+        //         arts=data.object
+        //         var nodes=""
+        //         for(var i=0;i<arts.length;i++){
+        //             if(i%3==0){
+        //                 if(i!=0)
+        //                     $('#blog-posts-section').append(nodes)
+        //                 nodes=$('<div class="blog-post-grids blog_grids"></div>')
+        //             }
+        //             var node=$('<div class="col-md-4 blog-posts" id="a_'+arts[i].aId+'" onclick="jumpToArt('+arts[i].aId+')"></div>')
+        //             var content=$('<div class="blog-post"></div>')
+        //             content.append('<a><img src="'+arts[i].cover+'"></a>')
+        //             content.append('<a class="blog-title">'+arts[i].title+'</a>')
+        //             content.append('<p class="sub_head">Posted by <a>'+arts[i].author+'</a> on '+arts[i].time+'</p>')
+        //             content.append('<span></span>')
+        //             content.append('<p>'+arts[i].cont+'...</p>')
+
+        //             content.append('<div class="read_num">阅读量:'+arts[i].readNum+'</div>')
+        //             node.append(content);
+        //              nodes.append(node)
+        //         }
+        //             //alert(node)
+        //         $('#blog-posts-section').append(nodes)
+        //             nodes=$('<div class="blog-post-grids blog_grids></div>')
+        //     }
+        // }
+        // putArt('{"code":0,"message":"success","object":[{"aId":2,"author":"张兴旺","cover":"images/b2.jpg","title":"爱情是什么","cont":"<P>　　——题记<\/P>\\n<P>　　爱情是什么？<\/P>\\n<P>　　诗人说，爱情是你眼前的一朵鲜花，流光开放的风华，是春日里的一抹桃红，秋风中的一缕<A href=\"http://www.duwen","time":"2019-04-13 16:20:07","readNum":0},{"aId":1,"author":"孟婷1234","cover":"images/b1.jpg","title":"三十多岁，如何打理尴尬年龄里的凌乱人生","cont":"<P>　　三十岁是一个分水岭，一边是骄阳似火、山花烂漫的绚丽<A href=\"http://www.duwenzhang.com/huati/qingchun/index1.html\">青春<\/A>，","time":"2019-04-13 16:18:28","readNum":0}]}')
+	</script>
+
+</head>
+<style type="text/css">
+	body, html {
+/*	  width: 100%;
+	  height: 100%;
+	  overflow: hidden;*/
+	  font-family: 'Roboto', sans-serif;
+	  color: rgba(0, 0, 0, 0.8);
+	}	
+
+	#webcam, #overlay {
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+      z-index:999;
+	}
+
+	#eyes {
+	  position: fixed;
+	  top: 0;
+	  left: 400px;
+      z-index:999;
+	}
+
+	#face {
+	    position: fixed;
+	    top: 50px;
+	    left:400px;
+        z-index:999;
+	}
+	#picCan {
+	    position: fixed;
+	    top: 500px;
+	    left:0px;
+        z-index:999;
+	}
+	#target {
+	  background-color: lightgreen;
+	  position: absolute;
+	  border-radius: 50%;
+	  height: 40px;
+	  width: 40px;
+	  transition: all 0.1s ease;
+	  box-shadow: 0 0 20px 10px white;
+	  border: 4px solid rgba(0,0,0,0.5);
+	  opacity: 0;
+	  z-index:999;
+	}
+</style>
+<body>
+
+<!-- 用于测试使用 -->
+<video id="webcam" width="400" height="300" autoplay></video>
+<canvas id="overlay" width="400" height="300"></canvas>
+<canvas id="eyes" width="50" height="25"></canvas>
+<canvas id="face" width="50" height="50"></canvas>	
+<div id="target"></div>
+
+<canvas id="picCan" width="400" height="300"></canvas>
+<canvas id="gastureCan" width="400" height="300"></canvas>
+
+<!-- header-section-starts -->
+<div class="header" id="header">
+	<div class="container">
+		<div class="logo">
+			<a href="index.html"><img src="images/logo.png" alt="" /></a>
+		</div>
+		<div class="social-icons header-social-icons">
+			<a href="#"><i class="twitter"></i></a>
+			<a href="#"><i class="facebook"></i></a>
+			<a href="#"><i class="dribble"></i></a>
+			<a href="#"><i class="rss"></i></a>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>
+<div class="header-bottom">
+	<div class="container">
+		<h3>Many things difficult to <span>design</span> prove easy to performance.</h3>
+	</div>
+</div>
+<div class="navigation-strip">
+	<div class="container">
+		<div class="nav_content">
+			<div class="home">
+				<a href="index.html"><img src="images/home1.png" alt="" /></a>
+			</div>
+			<div class="search">
+				<form>
+					<input type="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search..';}"/>
+					<input type="submit" value="">
+				</form>
+			</div>
+			<span class="menu"></span>
+			<div class="top-menu">
+				<ul>
+					<li><a href="about.html">About Us</a></li>
+					<li><a href="portfolio.html">Portfolio</a></li>
+					<li><a class="active" href="blog.html">Blog</a></li>
+					<li><a onclick="hiddenDebug()">Features</a></li>
+					<li><a href="contact.html">Contact</a></li>
+					<div class="clearfix"></div>
+				</ul>
+			</div>
+			<!-- script for menu -->
+			<script>
+                $( "span.menu" ).click(function() {
+                    $( ".top-menu" ).slideToggle( "slow", function() {
+                        // Animation complete.
+                    });
+                });
+			</script>
+			<!-- script for menu -->
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+<div class="content" id="content">
+</div>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html>
+
+<head lang="en">
+
+    <meta charset="UTF-8"/>
+
+    <title>系统登录</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+    <link rel="stylesheet" type="text/css" href="css/login.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+
+
+   <!-- <script src="js/jquery-1.11.1.js"></script>
+
+    <script src="js/login.js"></script>
+
+    <link href="css/style.css" rel="stylesheet" type="text/css" />-->
+
+</head>
+
+<body>
+
+<div class="main">
+
+    <div class="loginheader">
+
+        <div class="logintitle"><h1>Ctrl_I<br/>用户登录</h1></div>
+
+    </div>
+
+    <form>
+
+        <div class="loginform">
+
+            <div class="loginform_row">
+
+                <label>用户名:</label>
+
+                <input type="text" class="loginform_input" id="username" />
+
+            </div>
+
+            <div class="loginform_row">
+
+                <label>密码:</label>
+
+                <input type="password" class="loginform_input" id="password" />
+
+            </div>
+
+            <div class="loginform_row">
+
+                <span class = "returnInfo"></span>
+
+                <button class="loginform_submit" id="sub">登录</button>
+
+            </div>
+            <div class="loginform_row">
+                <a href="register.html">注册账号</a>
+            </div>
+
+            <div class="clear"></div>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+<script type="text/javascript">
+    $("#sub").click(function(){
+        //alert('in')
+        if(checkInput()) {
+            data = {'username' : $('#username').val(), 'password': $('#password').val()};
+            //alert(JSON.stringify(data))
+            $.post('http://localhost:8082/user/login',data,function(str){
+                //alert(str)
+                res = eval('('+str+')');
+                if(res.code != 0){
+                    alert(res.message);
+                }else{
+                    window.location.href = 'http://localhost:8081/blog.html';
+                }
+            });
+            return false;
+        }else{
+            return false;
+        }
+    });
+
+    function checkInput(){
+        //判断用户名
+
+        if($("#username").val() == null || $("#username").val() == ""){
+            alert("用户名不能为空");
+            $("#username").focus();
+            return false;
+        }
+        //判断密码
+
+        if($("#password").val() == null || $("#password").val() == ""){
+            alert("密码不能为空");
+            $("#password").focus();
+            return false;
+        }
+        return true;
+    }
+</script>
+</html>

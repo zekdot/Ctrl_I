@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>激活页面</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+    <link rel="stylesheet" type="text/css" href="css/login.css"/>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/param.js"></script>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+    var params = getParam(window.location.href)
+    $.post('http://localhost:8082/user/activate',params,function(str){
+        var res = eval('(' + str + ')');
+        if(res.code != 0){
+            alert(res.message);
+        }else{
+            alert('激活成功，请继续登录！');
+            window.location.href = 'login.html';
+        }
+    })
+</script>
+</html>
