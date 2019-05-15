@@ -22,26 +22,18 @@ function handleButton(ele,fun){
     return function(){
         // 时间减去100ms
         clockLeft -= 100;
-
-        var point = getPoint(ele);    //获得最节点？
-        var divx1 = point.l; //获得最左
-        var divy1 = point.t;  //获得最上
-        // // 获得最左
-        // var divx1 = curElement.offsetLeft;
-        // // 获得最上
-        // var divy1 = curElement.offsetTop;   
-
+        //获得最左和最上的坐标
+        var point = getPoint(ele); 
+        //获得最左   
+        var divx1 = point.l; 
+        //获得最上
+        var divy1 = point.t;  
         // 获得最右
         var divx2 = divx1 + curElement.offsetWidth; 
         // 获得最下
         var divy2 = divy1 + curElement.offsetHeight; 
-
-        //console.log('divx1'+divx1+' divy1'+divy1+' curElement.offsetWidth'+curElement.offsetWidth+' curElement.offsetHeight'+curElement.offsetHeight);
-        //console.log('curElement.offsetLeft'+curElement.offsetLeft+' curElement.offsetTop'+curElement.offsetTop+' curElement.offsetWidth'+curElement.offsetWidth+' curElement.offsetHeight'+curElement.offsetHeight);
-        console.log(clockLeft);
         // 如果当前光标位于处理元素之外
         if( cursor.left < divx1 || cursor.left > divx2 || cursor.top < divy1 || cursor.top > divy2){
-            //console.log('退出')
             // 清除计时器
             clearInterval(openClock);
             // 恢复原来的颜色
@@ -97,6 +89,22 @@ function getParentByClassName(ele,parName){
     return null;    //没有找到父亲节点
 }
 /**
+ * 根据类名获取特定的父亲节点
+ * @param ele 元素
+ * @param parName 父亲类名
+ */
+function getParentById(ele,parName){
+    parNode = ele;
+    while(parNode != null && parNode.nodeName != '#document'){  //如果当前元素不为空并且也没有到顶级
+        if(parNode.id == parName){   //如果找到了需要的父亲节点
+            return parNode; //返回父亲节点
+        }
+        parNode = parNode.parentNode;  //获取父节点
+        //console.log(parNode)
+    }
+    return null;    //没有找到父亲节点
+}
+/**
  * 移动光标
  */
 function moveTarget() {
@@ -111,7 +119,7 @@ function moveTarget() {
     // cursor.left = prediction[0] * ($('body').width() - $('#target').outerWidth());
     // cursor.top = prediction[1] * ($('body').height() - $('#target').outerWidth());
     cursor.left = prediction[0] * ($('body').width() - $('#target').outerWidth());
-    cursor.top = (prediction[1]+0)* ($(window).height() - $('#target').outerWidth()) + $(window).scrollTop();
+    cursor.top = (prediction[1]+0.1)* ($(window).height() - $('#target').outerWidth()) + $(window).scrollTop();
     //console.log(left)
     //console.log(right)=
     $('#target').css('left', cursor.left + 'px');
@@ -134,8 +142,9 @@ function moveTarget() {
         if(window.curLevel == 0){
             //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
             if (scrollTop + windowHeight == scrollHeight) {
+                //没有更多文章
                 if(window.curLastId == -1){
-                    ;   //没有更多文章
+                    ;   
                 }else{
                     //获取下一页的数据
                     getNextPage(window.curLastId); 
@@ -185,40 +194,29 @@ function moveTarget() {
         //如果元素不为空
         if(ele != null){    
             //设置剩余时间
-            clockLeft = OPEN_TIME;   
-
-            // if(curElement != null){ //如果有元素在计时
-            //     curElement.style.background = oriColor; //恢复原来的颜色
-            // }
+            clockLeft = OPEN_TIME;
             //保存原来的颜色
             oriColor = ele.style.background;    
             //设置当前处理元素
             curElement = ele;
-            //console.log(curElement)
-            //clearInterval(openClock);   //清除历史计时器
-
             //开启处理，每100ms检查一次
             openClock = setInterval(handleButton(curElement,function(){
                 //跳转到文章页面
                 jumpToArt(curElement.id.substr(2));
-                //$("#content").load('article.html')
-                //window.articleId = ;
             }),100);   
-
-            //curElement = ele;   //重新设置当前计时的标签
-
-        
-            //console.log(ele)
-            //console.log(ele.className);
-            //ele.style.background = 'yellow';
         }
     }
     // 如果当前位于文章详情页面
     if(window.curLevel == 1){
+        //console.log('当前位于页面')
          // 找到顶层父亲
-        ele = getParentByClassName(ele,'single-middle');    
+        ele = getParentByClassName(ele,'back');
+
+        //ele.style.background = 'red';
+        //console.log(ele);
         //如果元素不为空
         if(ele != null){    
+            //alert('in')
             //设置剩余时间
             clockLeft = OPEN_TIME;   
 

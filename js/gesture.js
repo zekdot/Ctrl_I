@@ -1,7 +1,11 @@
 const access_token = '24.e801c23f58cde5dad6988c08adff82a2.2592000.1559395919.282335-16158116';
-
+// 手势识别
 window.gesture = {
     dealGesture:function(json) {
+        //TODO 1 2 3分别代表三列
+        //TODO 4代表上 5代表下
+        //TODO 点赞代表打开，8代表返回
+        //TODo 可能性大于40%时执行
         for(var i = 0; i < json.result_num; i++) {
             console.log(json.result[i].classname+' '+json.result[i].probability);
         }
@@ -38,3 +42,25 @@ function gestureRun(){
 
     //console.log('情绪识别执行中');
 }
+/*
+    数字1 One
+    数字5 Five
+    拳头  Fist
+    OK  OK
+    祈祷  Prayer
+    作揖  Congratulation
+    作别  Honour
+    单手比心    Heart_single
+    点赞  Thump_up
+    Diss    Thumb_down
+    我爱你 ILY
+    掌心向上    Palm_up
+    双手比心1   Heart_1
+    双手比心2   Heart_2
+    双手比心3   Heart_3
+    数字2 Two
+    数字3 Three
+    4 6 7 8 9
+    Rock Rock
+    竖中指 Insult
+*/
