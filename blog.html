@@ -49,7 +49,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     		// 运行模型
     		setInterval(moveTarget, 100);
     		//setInterval(emotionRun,5000);
-            //setInterval(gestureRun,1000);
+            setInterval(gestureRun,1000);
             $('#open-config').click(function(){
                 if($('#config-list').css('width') == '0px'){
                     $('#config-list').css('width','300px');
@@ -70,12 +70,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             // }
         });
 
-        function hiddenDebug(){
-        	$('#face').css('display','none');
-        	$('#eyes').css('display','none');
-        	$('#webcam').css('display','none');
-        	$('#overlay').css('display','none');
-        }
+        
 
         
         // function putArt(str){
@@ -152,6 +147,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         top: 500px;
         left:0px;
         z-index:999;
+        display: none;
     }
 	#target {
 	  background-color: lightgreen;
@@ -212,6 +208,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     aside ul li a:hover {
         background: #d3d;
     }
+    aside ul li input {
+        display: inline;
+        width: 40px;
+        height: 20px;
+    }
         
     section {
         width: 100%;
@@ -244,13 +245,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <li>
             <h3>配置选项</h3>
         </li>
-        <li><a href="#">MENU TITLE 1</a></li>
-        <li><a href="#">MENU TITLE 2</a></li>
-        <li><a href="#">MENU TITLE 3</a></li>
-        <li><a href="#">MENU TITLE 4</a></li>
-        <li><a href="#">MENU TITLE 5</a></li>
-        <li><a href="#">MENU TITLE 6</a></li>
-        <li><a href="#">MENU TITLE 7</a></li>
+        <li>开启调试视频界面：<input id="debugCanvasCheck" type="checkbox"> </li>
+        <li>开启视线功能：<input id="eyeActiveCheck" type="checkbox"> </li>
+        <li>开启视线翻页功能：<input id="eyePageTurnCheck" type="checkbox"></li>
+        <li>开启视线点击功能：<input id="eyeButtonCheck" type="checkbox"></li>
+        <li>视线点击反应时间：<input id="eyeActiveTimeText" type="text"></li>
+        <li>开启手势功能：<input id="gestureActiveCheck" type="checkbox"> </li>
+        <li>开启手势翻页功能：<input id="gesturePageTurnCheck" type="checkbox"> </li>
+        <li>开启手势前进与后退：<input id="gestureButtonCheck" type="checkbox"> </li>
     </ul>
 </aside>
 <!-- header-section-starts -->
@@ -311,7 +313,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </div>
 <div class="content" id="content">
 </div>
-
 
 </body>
 </html>

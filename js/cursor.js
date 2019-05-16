@@ -110,7 +110,7 @@ function getParentById(ele,parName){
 function moveTarget() {
 
     // Move the model target to where we predict the user is looking to
-    if (itrack.currentModel == null || facetracker.currentEyeRect==null || itrack.inTraining) {
+    if (!window.config.eyeActive || itrack.currentModel == null || facetracker.currentEyeRect==null || itrack.inTraining) {
         return;
     }
     const prediction = itrack.getPrediction();
