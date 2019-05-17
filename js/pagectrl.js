@@ -1,5 +1,6 @@
 window.curLastId = 0;  //当前的最后一篇文章的id，用于翻页
 window.curLevel = 0;    //当前页面层级 0-文章列表页面 1-文章具体页面
+window.historyTop = 0;  //保存历史的滑动距离
 //window.curReadId = -1;  //当前阅读的文章id
 /**
  * 获取某元素以浏览器左上角为原点的坐标
@@ -27,6 +28,18 @@ function getPoint(obj) {
 */
 function jumpToArt(id){
     //window.location.href='article.html?id='+id;
+    // 保存历史位置
+    cursor.historyTop = cursor.top;
+    cursor.historyLeft = cursor.left;
+    // 移动光标到左上角
+    cursor.top = 0;
+    cursor.left = 0;
+    $('#target').css('top', cursor.top + 'px');
+    $('#target').css('left', cursor.left + 'px');
+
+    window.historyTop = $(window).scrollTop();
+    // 清空滑动距离
+    $('html,body').scrollTop(0);   
     // 载入文章HTML
     $("#content").load('article.html')
     //设置当前文章id
@@ -40,16 +53,40 @@ function jumpToArt(id){
  * @param 文章id
  */
 function backArtList(id){
+
     // 载入文章列表HTML
-    $("#content").load('list.html');
-    // 设置当前层级位于文章列表页面
-    window.curLevel = 0;
-    // 获取文章块对应的到顶部的距离
-    var art = document.getElementById('a_' + id);
-    // 获取距离
-    var point = getPoint(art);
-    // 滑动到对应的位置
-    $('html,body').scrollTop(point);
+    $("#content").load('list.html',{},function(){
+        // 设置当前层级位于文章列表页面
+        window.curLevel = 0;
+        // console.log(id)
+        // // 获取文章块对应的到顶部的距离
+        // var art = document.getElementById('a_' + id);
+        // console.log(art)
+        // alert(art)
+        // // 获取距离
+        // var point = getPoint(art);
+        // console.log(point)
+        // console.log(point.t)
+        // 载入历史位置
+        cursor.top = cursor.historyTop;
+        cursor.left = cursor.historyLeft;
+        $('#target').css('top', cursor.top + 'px');
+        $('#target').css('left', cursor.left + 'px');
+            //alert(window.historyTop)
+            // 滑动到对应的位置
+            //console.log(window.historyTop)
+        var timer = setInterval(function(){
+            $('html,body').scrollTop(window.historyTop);
+            //alert('fuckf')
+            clearInterval(timer);
+        },300)
+            
+            //alert($('html,body').scrollTop())
+        
+        
+
+    });
+
 }
 /**
  * 将获取的文章json填充到页面当中去

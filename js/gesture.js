@@ -50,8 +50,8 @@ function dealGesture(json) {
                 var temp=$('html,body').scrollTop();
                 //向下移动一段距离
                 $('html,body').scrollTop(temp - GES_DOWN_DISTANCE); 
-                // 光标也需要移动
-                window.cursor.top -= GES_DOWN_DISTANCE;
+                /// 光标也需要移动 
+                window.cursor.top = $('html,body').scrollTop() + $(window).height() / 2;
                 $('#target').css('top', cursor.top + 'px');
             }
             // 如果是5，代表向下
@@ -75,13 +75,16 @@ function dealGesture(json) {
                         }
                     }
                 }
-                // 光标也需要移动
-                window.cursor.top += GES_DOWN_DISTANCE;
-                $('#target').css('top', cursor.top + 'px');
+                
+                // += GES_DOWN_DISTANCE;
+                
                 // 获取当前的滚动条位置
                 var temp=$('html,body').scrollTop();
                 //向下移动一段距离
-                $('html,body').scrollTop(temp + GES_DOWN_DISTANCE);   
+                $('html,body').scrollTop(temp + GES_DOWN_DISTANCE);  
+                // 光标也需要移动 
+                window.cursor.top = $('html,body').scrollTop() + $(window).height() / 2;
+                $('#target').css('top', cursor.top + 'px');
             }
             // 如果当前位于文章标题列表页面
             if(window.curLevel == 0){
@@ -112,6 +115,7 @@ function dealGesture(json) {
                     //console.log(ele)   
                     //如果元素不为空
                     if(ele != null){
+                        
                         //跳转到文章页面
                         jumpToArt(ele.id.substr(2));
                     }            
@@ -119,6 +123,8 @@ function dealGesture(json) {
             }else if(window.curLevel == 1){
                 // 如果是数字8
                 if(json.result[i].classname == 'Eight'){
+
+                    
                     // 返回文章列表页面
                     backArtList(window.articleId)
                 }           

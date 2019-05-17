@@ -8,6 +8,16 @@ window.config = {
     gestureActive : true,    //是否开启手势
     gesturePageTurn : false,    //是否开启手势翻页，与眼部不可共存
     gestureButton : true,   //是否开启手势进入、返回功能
+    printConfig : function(){
+        console.log('debugCanvas : ' + config.debugCanvas);
+        console.log('eyeActive : ' + config.eyeActive);
+        console.log('eyePageTurn : ' + config.eyePageTurn);
+        console.log('eyeButton : ' + config.eyeButton);
+        console.log('eyeActiveTime : ' + config.eyeActiveTime);
+        console.log('gestureActive : ' + config.gestureActive);
+        console.log('gesturePageTurn : ' + config.gesturePageTurn);
+        console.log('gestureButton : ' + config.gestureButton)
+    }
 }
 /**
  * 设置canvas的display
@@ -86,7 +96,7 @@ jQuery(document).ready(function($) {
             // 归零坐标
             window.cursor.left = 0;
             // 以备手势调用
-            window.cursor.top = 400;
+            window.cursor.top = $('html,body').scrollTop()+$(window).height() / 2;
             $('#target').css('left', '0px');
             $('#target').css('top', '0px');
             //setCanvas('none');
@@ -97,6 +107,33 @@ jQuery(document).ready(function($) {
             //console.log('开启视线追踪');
             //setCanvas('block');
         }
+    });
+    // 视线翻页开启选项
+    $('#eyePageTurnCheck').click(function(){
+        // 如果没有开启视线追踪
+        if(!$('#eyePageTurnCheck').attr('checked')){
+            // 关闭视线翻页功能
+            config.eyePageTurn = false;
+        }else{
+            // 开启实现追踪功能
+            config.eyePageTurn = true;
+        }
+    });
+    // 视线点击开启选项
+    $('#eyeButtonCheck').click(function(){
+        // 如果没有开启视线点击
+        if(!$('#eyeButtonCheck').attr('checked')){
+            // 关闭视线点击功能
+            config.eyeButton = false;
+        }else{
+            // 开启视线点击功能
+            config.eyeButton = true;
+        }
+    });
+    // 按钮激活时间设置
+    $('#eyeActiveTimeText').blur(function(){
+        // 设置按钮激活时间
+        config.eyeActiveTime = $('#eyeActiveTimeText').val();
     });
     // 手势功能开启选项
     $('#gestureActiveCheck').click(function(){
@@ -113,6 +150,28 @@ jQuery(document).ready(function($) {
             setGestureDisable(false);
             //console.log('开启视线追踪');
             //setCanvas('block');
+        }
+    })
+    // 手势翻页开启选项
+    $('#gesturePageTurnCheck').click(function(){
+        // 如果没有开启手势功能
+        if(!$('#gesturePageTurnCheck').attr('checked')){
+            // 关闭手势翻页功能
+            config.gesturePageTurn = false;
+        }else{
+            // 开启手势翻页功能
+            config.gesturePageTurn = true;
+        }
+    })
+    // 手势按钮开启选项
+    $('#gestureButtonCheck').click(function(){
+        // 如果没有开启手势按钮功能
+        if(!$('#gestureButtonCheck').attr('checked')){
+            // 关闭手势按钮功能
+            config.gestureButton = false;
+        }else{
+            // 开启手势按钮功能
+            config.gestureButton = true;
         }
     })
 });

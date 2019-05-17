@@ -1,6 +1,8 @@
 window.cursor = {
     left: 0,
-    top: 0
+    top: 0,
+    historyLeft : 0,
+    historyTop : 0,
 }
 const DOWN_DISTANCE = 30;
 const OPEN_TIME = 3000;
@@ -233,11 +235,7 @@ function moveTarget() {
             //开启处理，每100ms检查一次
             openClock = setInterval(handleButton(curElement,function(){
                 // 跳转到文章列表页面
-                backArtList(window.articleId)
-                //跳转到文章页面
-                //jumpToArt(curElement.id.substr(2));
-                //$("#content").load('article.html')
-                //window.articleId = ;
+                backArtList(window.articleId);
             }),100);   
 
             //curElement = ele;   //重新设置当前计时的标签
