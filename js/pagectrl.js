@@ -1,6 +1,7 @@
 window.curLastId = 0;  //当前的最后一篇文章的id，用于翻页
 window.curLevel = 0;    //当前页面层级 0-文章列表页面 1-文章具体页面
 window.historyTop = 0;  //保存历史的滑动距离
+window.historyArts = [];    //保存历史的文章数据
 //window.curReadId = -1;  //当前阅读的文章id
 /**
  * 获取某元素以浏览器左上角为原点的坐标
@@ -55,9 +56,10 @@ function jumpToArt(id){
 function backArtList(id){
 
     // 载入文章列表HTML
-    $("#content").load('list.html',{},function(){
+    $("#content").load('list.html')
         // 设置当前层级位于文章列表页面
         window.curLevel = 0;
+        //alert(id);
         // console.log(id)
         // // 获取文章块对应的到顶部的距离
         // var art = document.getElementById('a_' + id);
@@ -83,69 +85,62 @@ function backArtList(id){
             
             //alert($('html,body').scrollTop())
         
-        
 
-    });
 
 }
+
+
 /**
- * 将获取的文章json填充到页面当中去
- * @param str 文章json
+ * 将获取的文章列表填充到页面当中去
+ * @param str 文章列表
  */
-function putArt(str){
+function putArt(arts,saved = true){
     //alert(str)
-    var data=eval('('+str+')');
-    if(data.code!=0){
-        //
-        if(data.code == 1){
-            window.curLastId = -1;
-            alert(data.message);
-        }else{
-            alert(data.message);
-        }
-        return;
-    }else{
-        var arts = data.object; //拿出所有文章
-        var cols = [[],[],[]];  //三列
-        var colIndex = 0;
-        for(var i=0; i<arts.length ;i++){
-            cols[colIndex].push(arts[i]);
-            colIndex++;
-            colIndex %= 3;
-        }
+    //var arts = data.object; //拿出所有文章
+    var cols = [[],[],[]];  //三列
+    var colIndex = 0;
+    for(var i=0; i<arts.length ;i++){
+        // 如果要把此次的数据加进历史列表
+        if(saved)
+            // 加入数据
+            historyArts.push(arts[i]);
+        cols[colIndex].push(arts[i]);
+        colIndex++;
+        colIndex %= 3;
+    }
                     //console.log(cols);
                     //$('#blog-posts-section').append();
-        var wrap = $('<div class="blog-post-grids blog_grids"></div>');
+    var wrap = $('<div class="blog-post-grids blog_grids"></div>');
                 //console.log($('#blog-posts-section'));
-        $('#blog-posts-section').append(wrap);
-        for(var i = 0;i < 3; i++){
-            var nodes = $('<div class="col-md-4 blog-posts"></div>');
-            if(i == 2){
-                nodes = $('<div class="col-md-4 blog-posts span_66"></div>');
-            }
-            wrap.append(nodes);
-            for(var j = 0;j < cols[i].length; j++){
-                        //console.log(cols[i][j])
-                var content=$('<div class="blog-post"  id="a_'+cols[i][j].aId+'" onclick="jumpToArt('+cols[i][j].aId+')" ></div>');
-                window.curLastId = cols[i][j].aId; //保存当前最后一条id
+    $('#blog-posts-section').append(wrap);
+    for(var i = 0;i < 3; i++){
+        var nodes = $('<div class="col-md-4 blog-posts"></div>');
+        if(i == 2){
+            nodes = $('<div class="col-md-4 blog-posts span_66"></div>');
+        }
+        wrap.append(nodes);
+        for(var j = 0;j < cols[i].length; j++){
+                    //console.log(cols[i][j])
+            var content=$('<div class="blog-post"  id="a_'+cols[i][j].aId+'" onclick="jumpToArt('+cols[i][j].aId+')" ></div>');
+            window.curLastId = cols[i][j].aId; //保存当前最后一条id
                 //console.log(cols[i][j].aId)
                 //alert('fuck')
-                nodes.append(content);
-                content.append('<a><img src="'+cols[i][j].cover+'"></a>')
-                content.append('<a class="blog-title">'+cols[i][j].title+'</a>')
-                content.append('<p class="sub_head">Posted by <a>'+cols[i][j].author+'</a> on '+cols[i][j].time+'</p>')
-                content.append('<span></span>')
-                        //content.append('<p>'+cols[i][j].cont+'...</p>')
-                content.append('<p>'+cols[i][j].cont+'...</p>')
-                content.append('<div class="read_num">阅读量:'+cols[i][j].readNum+'</div>')
-                            
+            nodes.append(content);
+            content.append('<a><img src="'+cols[i][j].cover+'"></a>')
+            content.append('<a class="blog-title">'+cols[i][j].title+'</a>')
+            content.append('<p class="sub_head">Posted by <a>'+cols[i][j].author+'</a> on '+cols[i][j].time+'</p>')
+            content.append('<span></span>')
+                    //content.append('<p>'+cols[i][j].cont+'...</p>')
+            content.append('<p>'+cols[i][j].cont+'...</p>')
+            content.append('<div class="read_num">阅读量:'+cols[i][j].readNum+'</div>')
+                        
                             //console.log(content)
-            }
+        }
                         
                 //console.log(content)
-        }
-        $('#blog-posts-section').append('<div class="clearfix"></div>');
-        $('#blog-posts-section').append('<div class="right_column">');
+    }
+    $('#blog-posts-section').append('<div class="clearfix"></div>');
+    $('#blog-posts-section').append('<div class="right_column">');
                     // console.log(wrap)
                     // //console.log(cols[1])
                     
@@ -165,7 +160,47 @@ function putArt(str){
                     // //alert(node)
                     // $('#blog-posts-section').append(nodes)
                     // nodes=$('<div class="blog-post-grids blog_grids></div>')
-                    
+
+}
+// 绑定滚动事件
+window.onscroll = function(){
+    //已经滚动到上面的页面高度
+    var scrollTop = $(window).scrollTop();
+    //页面高度
+    var scrollHeight = $(document).height();
+    //浏览器窗口高度
+    var windowHeight = $(window).height();
+    // 如果是文章列表层级
+    if(window.curLevel == 0){
+         //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
+         if (scrollTop + windowHeight == scrollHeight) {
+            //没有更多文章
+            if(window.curLastId == -1){
+                ;   
+            }else{
+                //获取下一页的数据
+                getNextPage(window.curLastId); 
+            }
+        }
+    }
+};
+/**
+ * 处理向后台请求数据之后的回调函数
+ * @str 字符串
+ */
+function getPageCallBack(str){
+    var data=eval('('+str+')');
+    if(data.code!=0){
+        //
+        if(data.code == 1){
+            window.curLastId = -1;
+            alert(data.message);
+        }else{
+            alert(data.message);
+        }
+        return;
+    }else{
+        putArt(data.object)
     }
 
 }
@@ -175,5 +210,11 @@ function putArt(str){
  */
 function getNextPage(lastId){
     //alert(lastId)
-    $.post('http://localhost:8082/article/list',{'lastId':lastId},putArt);
+    // 如果请求第一页并且已经有缓存了
+    if(lastId == 0 && historyArts.length > 0){
+        putArt(historyArts,false);
+    }else{
+        $.post('http://localhost:8082/article/list',{'lastId':lastId},getPageCallBack);        
+    }
+
 }

@@ -69,7 +69,7 @@ function handleButton(ele,fun){
             curElement = null;
         }
         // 计算颜色值
-        curColorValue = parseInt(clockLeft / OPEN_TIME * 255);    
+        curColorValue = parseInt(clockLeft / config.eyeActiveTime * 255);    
         // 设置颜色值
         ele.style.background = 'rgb(' + curColorValue +', ' + (255 - curColorValue) + ', 0)';
     }
@@ -132,27 +132,27 @@ function moveTarget() {
 
     
     //用于上下滚动页面的代码
-    if(cursor.top > $(window).height()*0.80 + $(window).scrollTop()){   //向下移动的逻辑
+    if(config.eyePageTurn && cursor.top > $(window).height()*0.80 + $(window).scrollTop()){   //向下移动的逻辑
         //console.log("down");
-         //已经滚动到上面的页面高度
-        var scrollTop = $(this).scrollTop();
-        //页面高度
-        var scrollHeight = $(document).height();
-       //浏览器窗口高度
-        var windowHeight = $(this).height();
-        // 如果是文章列表层级
-        if(window.curLevel == 0){
-            //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
-            if (scrollTop + windowHeight == scrollHeight) {
-                //没有更多文章
-                if(window.curLastId == -1){
-                    ;   
-                }else{
-                    //获取下一页的数据
-                    getNextPage(window.curLastId); 
-                }
-            }
-        }
+       //   //已经滚动到上面的页面高度
+       //  var scrollTop = $(this).scrollTop();
+       //  //页面高度
+       //  var scrollHeight = $(document).height();
+       // //浏览器窗口高度
+       //  var windowHeight = $(this).height();
+       //  // 如果是文章列表层级
+       //  if(window.curLevel == 0){
+       //      //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
+       //      if (scrollTop + windowHeight == scrollHeight) {
+       //          //没有更多文章
+       //          if(window.curLastId == -1){
+       //              ;   
+       //          }else{
+       //              //获取下一页的数据
+       //              getNextPage(window.curLastId); 
+       //          }
+       //      }
+       //  }
         // 获取当前的滚动条位置
         var temp=$('html,body').scrollTop();//.animate({scrollTop:cursor.top+$(window).height()/1024*1024},'slow')
         //向下移动一段距离
@@ -169,7 +169,7 @@ function moveTarget() {
         // 如果移动就不再判断当前元素了
         return ;
     }
-    if(cursor.top < $(window).height()*0.20 + $(window).scrollTop()){
+    if(config.eyePageTurn && cursor.top < $(window).height()*0.20 + $(window).scrollTop()){
         //console.log('up')
         var temp=$('html,body').scrollTop()//.animate({scrollTop:cursor.top+$(window).height()/1024*1024},'slow');
         $('html,body').scrollTop(temp-DOWN_DISTANCE);
@@ -181,7 +181,7 @@ function moveTarget() {
         return ;
     }
     //如果当前有元素正在处理之中
-    if(curElement != null){ 
+    if(!config.eyeButton || curElement != null){ 
         //直接退出
         return; 
     }
@@ -196,7 +196,7 @@ function moveTarget() {
         //如果元素不为空
         if(ele != null){    
             //设置剩余时间
-            clockLeft = OPEN_TIME;
+            clockLeft = config.eyeActiveTime;
             //保存原来的颜色
             oriColor = ele.style.background;    
             //设置当前处理元素
@@ -220,7 +220,7 @@ function moveTarget() {
         if(ele != null){    
             //alert('in')
             //设置剩余时间
-            clockLeft = OPEN_TIME;   
+            clockLeft = config.eyeActiveTime;   
 
             // if(curElement != null){ //如果有元素在计时
             //     curElement.style.background = oriColor; //恢复原来的颜色

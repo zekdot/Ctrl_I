@@ -9,6 +9,8 @@
 	<script src="js/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.15.3"></script> 
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@0.8.4"></script>
+    <!-- cookies -->
+    <script type="text/javascript" src="js/cookiesutil.js"></script>
     <!-- 配置 -->
     <script type="text/javascript" src="js/config.js"></script>
 	<script src="js/vendor/clmtrackr.js"></script>
@@ -41,6 +43,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 event.preventDefault();
                 $('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
             });
+            
             $("#content").load('list.html')
             // 加载模型
         	itrack.loadModel();
@@ -69,7 +72,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             //     // }
             // }
         });
-
         
 
         

@@ -45,7 +45,7 @@ function dealGesture(json) {
             }
             console.log(json.result[i].classname+' '+json.result[i].probability);
             // 如果是4，代表向上
-            if(json.result[i].classname == 'Four'){
+            if(config.gesturePageTurn && json.result[i].classname == 'Four'){
                 // 获取当前的滚动条位置
                 var temp=$('html,body').scrollTop();
                 //向下移动一段距离
@@ -55,26 +55,8 @@ function dealGesture(json) {
                 $('#target').css('top', cursor.top + 'px');
             }
             // 如果是5，代表向下
-            if(json.result[i].classname == 'Five'){
-                //已经滚动到上面的页面高度
-                var scrollTop = $(window).scrollTop();
-                //页面高度
-                var scrollHeight = $(document).height();
-                //浏览器窗口高度
-                var windowHeight = $(window).height();
-                // 如果是文章列表层级
-                if(window.curLevel == 0){
-                    //此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
-                    if (scrollTop + windowHeight == scrollHeight) {
-                        //没有更多文章
-                        if(window.curLastId == -1){
-                            ;   
-                        }else{
-                            //获取下一页的数据
-                            getNextPage(window.curLastId); 
-                        }
-                    }
-                }
+            if(config.gesturePageTurn && json.result[i].classname == 'Five'){
+
                 
                 // += GES_DOWN_DISTANCE;
                 
@@ -107,7 +89,7 @@ function dealGesture(json) {
                     $('#target').css('left', cursor.left + 'px');
                 }
                 // 如果是点赞
-                if(json.result[i].classname == 'Thumb_up'){
+                if(config.gestureButton && json.result[i].classname == 'Thumb_up'){
                     //获取当前元素
                     var ele = document.elementFromPoint(cursor.left,cursor.top - $(window).scrollTop());
                     // 找到顶层父亲
@@ -122,9 +104,7 @@ function dealGesture(json) {
                 }
             }else if(window.curLevel == 1){
                 // 如果是数字8
-                if(json.result[i].classname == 'Eight'){
-
-                    
+                if(config.gestureButton && json.result[i].classname == 'Eight'){
                     // 返回文章列表页面
                     backArtList(window.articleId)
                 }           
