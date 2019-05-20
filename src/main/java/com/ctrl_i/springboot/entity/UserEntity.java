@@ -10,8 +10,10 @@ import java.util.Objects;
 @Table(name = "user", schema = "ctrl_i", catalog = "")
 public class UserEntity {
     private String uId;
+    private String nickname;
     private String password;
-
+    private String email;
+    private Byte state;
     @Id
     @Column(name = "u_id")
     public String getuId() {
@@ -38,11 +40,42 @@ public class UserEntity {
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity that = (UserEntity) o;
         return Objects.equals(uId, that.uId) &&
-                Objects.equals(password, that.password);
+                Objects.equals(nickname,that.nickname) &&
+                Objects.equals(password, that.password) &&
+                Objects.equals(email,that.email) &&
+                Objects.equals(state,that.state);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uId, password);
+        return Objects.hash(uId, nickname, password, email, state);
+    }
+    @Basic
+    @Column(name = "email")
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    @Basic
+    @Column(name = "state")
+    public Byte getState() {
+        return state;
+    }
+
+    public void setState(Byte state) {
+        this.state = state;
+    }
+
+    @Basic
+    @Column(name = "nickname")
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

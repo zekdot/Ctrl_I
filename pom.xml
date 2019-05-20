@@ -114,6 +114,12 @@
             <artifactId>ezmorph</artifactId>
             <version>1.0.6</version>
         </dependency>
+        <!-- 邮件相关的依赖 -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -18,7 +18,16 @@ public interface UserService {
      * 根据用户名密码进行注册
      * @param username 用户名
      * @param password 密码
+     * @param email 邮箱
      * @return 结果
      */
-    public Envelope register(String username,String password);
+    public Envelope register(String username,String password,String email);
+
+    /**
+     * 激活用户状态
+     * @param username 用户名
+     * @param code 激活码
+     * @return 是否激活
+     */
+    public Envelope activateUsername(String username,String code);
 }

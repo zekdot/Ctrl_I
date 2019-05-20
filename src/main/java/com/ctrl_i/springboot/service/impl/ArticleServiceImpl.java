@@ -23,7 +23,20 @@ public class ArticleServiceImpl implements ArticleService {
     @Resource
     private ArticleDao articleDao;
     private static int PAGE_SIZE=18;   //每页18条
-    private static String PIC_URL="images/"; //文章的图片URL
+    private static int WORD_LIMIT = 70;    //缩略文字数
+    private static String PIC_URL="http://localhost:8081/images/"; //文章的图片URL
+
+    /**
+     * 获取文字内容
+     * @param content 内容
+     * @return 文字内容
+     */
+    private String getTextContent(String content){
+        int pIndex = content.indexOf("<p>");
+        if(pIndex == -1)
+            return content;
+        return content.substring(pIndex);
+    }
     @Override
     public Envelope getArticleList(int lastId) {
         List<ArticleEntity> list;
@@ -42,9 +55,15 @@ public class ArticleServiceImpl implements ArticleService {
             jsonObject=new JSONObject();
             jsonObject.put("aId",articleEntity.getaId());   //文章id
             jsonObject.put("author",articleEntity.getAuthor()); //文章作者
-            jsonObject.put("cover",PIC_URL+articleEntity.getCover());   //文章封面
+            if(articleEntity.getCover() == null || articleEntity.getCover().equals("")){    //如果没有封面
+                jsonObject.put("cover",PIC_URL+"noCover.png");
+            }else{
+                jsonObject.put("cover",articleEntity.getCover());   //文章封面
+            }
+
             jsonObject.put("title",articleEntity.getTitle());   //文章标题
-            jsonObject.put("cont",articleEntity.getContent().substring(0,100));
+            String content = getTextContent(articleEntity.getContent());
+            jsonObject.put("cont",content.substring(0,WORD_LIMIT > content.length() ? content.length() : WORD_LIMIT));
             jsonObject.put("time", DateUtil.dateTime2Str(articleEntity.getTime())); //文章时间
             jsonObject.put("readNum",articleEntity.getReadNum());   //阅读数
             jsonArray.add(jsonObject);
