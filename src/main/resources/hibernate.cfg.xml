@@ -16,7 +16,7 @@
         <!-- Hibernate方言 -->
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <!-- 打印SQL语句 -->
-        <property name="show_sql">false</property>
+        <property name="show_sql">true</property>
 
         <!-- 配置连接池 -->
         <property name="hibernate.temp.use_jdbc_metadata_defaults">false</property>
@@ -37,5 +37,6 @@
         <mapping class="com.ctrl_i.springboot.entity.TestUserEntity"/>
         <mapping class="com.ctrl_i.springboot.entity.ArticleEntity"/>
         <mapping class="com.ctrl_i.springboot.entity.UserEntity"/>
+        <mapping class="com.ctrl_i.springboot.entity.CommentsEntity"/>
     </session-factory>
 </hibernate-configuration>
