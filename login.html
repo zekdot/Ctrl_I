@@ -10,7 +10,8 @@
     <link rel="stylesheet" type="text/css" href="css/reset.css"/>
     <link rel="stylesheet" type="text/css" href="css/login.css"/>
     <script type="text/javascript" src="js/jquery.min.js"></script>
-
+    <!-- cookies -->
+    <script type="text/javascript" src="js/cookiesutil.js"></script>
 
    <!-- <script src="js/jquery-1.11.1.js"></script>
 
@@ -76,12 +77,16 @@
         if(checkInput()) {
             data = {'username' : $('#username').val(), 'password': $('#password').val()};
             //alert(JSON.stringify(data))
-            $.post('http://localhost:8082/user/login',data,function(str){
+            $.post('http://localhost:8082/user/login',data,function(str,status,xhr){
                 //alert(str)
                 res = eval('('+str+')');
                 if(res.code != 0){
                     alert(res.message);
                 }else{
+                    //console.log(document.cookie)
+                    //console.log(res.object)
+                    //alert('top')
+                    setCookie('loginCoo',res.object);
                     window.location.href = 'http://localhost:8081/blog.html';
                 }
             });

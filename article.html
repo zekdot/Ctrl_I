@@ -1,8 +1,46 @@
+ <link href="css/article.css" rel="stylesheet" type="text/css" media="all" />
  <script type="text/javascript">
         
 	 // 	function back(){
 	 // 	    $('#content').load('list.html');//location.href="/blog.html";
 		// }
+        /**
+         * 放置评论
+         * @param str 返回字符串
+         */
+        function putComment(str){
+            console.log(str);
+            // 转换成json对象
+            var res = eval('(' + str + ')');
+            if(res.code != 0){
+                alert('评论加载出错:' + res.message);
+            }else{
+                var comments = res.object;
+                for(var i = 0 ;i < comments.length ;i++){
+                    //console.log(comments[i]);
+                    var comments_item = $('<div class = "comment_item"></div>');
+                    comments_item.append('<b style="font-size: 15px;" class="name">昵称：'+comments[i].uId+'</b>');
+                    comments_item.append('<br>');
+                    comments_item.append('<p class="content">'+comments[i].content+'</p>').append('<br>')
+                    comments_item.append('<b class="time">'+comments[i].time+'</b>');
+                    $('#other_comment_div').append(comments_item);
+                }
+
+
+            }
+        }
+        /**
+         * 刷新评论区
+         *
+         */
+        function refreshComment(){
+            // 构造数据
+            data = {'aId':window.articleId};
+            // 发送请求病处理返回数据
+            $.get('http://localhost:8082/comment/getComByaId',data,putComment);
+        }
+
+                  
 		jQuery(document).ready(function($) {
 			//console.log(l)
 		    //var url=window.location.href; //获取url
@@ -34,8 +72,76 @@
                 }
 			}
 			$.get('http://localhost:8082/article/info',{'id':id},putArt)  //请求后台数据
-		});
-		
+		  refreshComment();  
+        });
+		$('#comment_submit').click(function(){
+            // 提取数据
+            var data = {'aId':window.articleId,'content':$('#comment_text').val()};
+            //console.log(getCookie('loginCoo'))
+
+            // $.ajax({
+            //     type: "POST",
+            //     url: 'http://localhost:8082/comment/comArt',
+            //     data:data,
+            //     xhrFields: {
+            //         withCredentials: true // 携带跨域cookie
+            //     },
+            //     processData: false,
+            //     success: function(str) {
+            //         // 将返回值转换为json对象
+            //         res = eval('(' + str + ')');
+            //         // 如果提交成功
+            //         if(res.code == 0){
+            //             ;
+            //         }else{
+
+            //             alert(res.message);
+            //         }
+            //     }
+            // });
+            document.cookie = 'JSESSIONID=' + getCookie('loginCoo');
+            //console.log(document.cookie)
+
+            $.ajax({
+                url : 'http://localhost:8082/comment/comArt',
+                data : data,
+                dataType: 'json',
+                type : 'POST',
+                xhrFields: {
+                    withCredentials: true
+                },
+                crossDomain: true,
+
+                success: function(res) {
+                    // alert(str)
+                    // // 将返回值转换为json对象
+                    // res = eval('(' + str + ')');
+                    // 如果提交成功
+                    if(res.code == 0){
+                        ;
+                    }else{
+
+                        alert(res.message);
+                    }
+                }
+            })
+
+            // 提交到后台并获取返回值
+            // $.post('http://localhost:8082/comment/comArt',data,function(str){
+            //     // 将返回值转换为json对象
+            //     res = eval('(' + str + ')');
+            //     // 如果提交成功
+            //     if(res.code == 0){
+            //         ;
+            //     }else{
+
+            //         alert(res.message);
+            //     }
+            // })
+            //alert(JSON.stringify(data));
+
+            
+        });
 		//
 	</script>
 
@@ -62,17 +168,38 @@
 				</div>
 				<div id="a_content"></div>
                 <div class="back" onclick="backArtList(window.articleId)">
-    				<!-- <div class="single-middle" ">
-          
-        				<ul class="social-share">
-        					<li><span>BACK</span></li>			
-        				</ul>
-        				<i class="arrow"> </i>
-                    </div> -->
                     <img src="images/back_list.jpg">
                 </div>
-				<div class="clearfix"> </div>
-  
+                <div id = "comment_div">
+                    <b style="font-size: 20px;">您的评论:</b><br>
+                    <b class="tip">请不要超过200个汉字。</b>
+                    <textarea id = "comment_text"></textarea>
+                    <br>
+                    <button id = "comment_submit">提交</button>
+                </div>
+                <div id = "other_comment_div">
+                    <b  style="font-size: 20px;">网友评论:</b>
+                    <br><br>
+                    <div class = "comment_item">
+                        <b style="font-size: 15px;" class="name">昵称：哈哈哈哈</b>
+                        <br>
+                        <p class="content">大家疯狂的世界发链接都是安康路附近都是拉开飞机的临时卡放假了多少阿里看电视<br>健康的数据费两款手机</p>
+                        <br>
+                        <b class="time">2019-05-20 00:00:00</b>
+                    </div>      
+                    <div class = "comment_item">
+                        <b style="font-size: 15px;" class="name">昵称：哈哈哈哈</b>
+                        <br>
+                        <p class="content">大家疯狂的世界发链接都是安康路附近都是拉开飞机的临时卡放假了多少阿里看电视<br>健康的数据费两款手机</p>
+                        <br>
+                        <b class="time">2019-05-20 00:00:00</b>
+                    </div> 
+                </div>
+				<div class="clearfix">
+                           
+                </div>
+                
+                
 			</div>
 
 		</div>
