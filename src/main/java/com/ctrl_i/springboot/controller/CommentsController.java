@@ -31,7 +31,7 @@ public class CommentsController {
     public String commentArticle(int aId,String content,HttpSession session){
         UserEntity userEntity = (UserEntity) session.getAttribute("user");
         try{
-            return commentsService.commentArticle(aId,content,userEntity.getuId()).toString();
+            return commentsService.commentArticle(aId,userEntity.getuId(),content).toString();
         }catch (Exception e){
             e.printStackTrace();
             return Envelope.systemError.toString();

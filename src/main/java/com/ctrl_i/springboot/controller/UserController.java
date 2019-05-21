@@ -53,7 +53,7 @@ public class UserController {
             Envelope envelope = userService.login(username,password);
             if(envelope.getCode() == 0){    //如果验证成功
                 session.setAttribute("user",envelope.getObj()); //设置session
-                envelope.setObj(null);
+                envelope.setObj(session.getId());   //返回sessionid
             }
             return envelope.toString();
         }catch (Exception e){

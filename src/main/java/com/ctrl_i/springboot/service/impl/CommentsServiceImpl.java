@@ -4,6 +4,8 @@ import com.ctrl_i.springboot.dao.CommentsDao;
 import com.ctrl_i.springboot.dto.Envelope;
 import com.ctrl_i.springboot.entity.CommentsEntity;
 import com.ctrl_i.springboot.service.CommentsService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -41,7 +43,9 @@ public class CommentsServiceImpl implements CommentsService {
     @Override
     public Envelope getCommentsByaId(int aId,int lastId) {
         try {
-            return new Envelope(commentsDao.getCommentByaId(aId,lastId,PAGE_SIZE));
+            List<CommentsEntity> list = commentsDao.getCommentByaId(aId,lastId,PAGE_SIZE);
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+            return new Envelope(gson.toJson(list));
         } catch (Exception e) {
             e.printStackTrace();
             return Envelope.dbError;
