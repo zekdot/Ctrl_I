@@ -1,79 +1,147 @@
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <title>Ctrl_i系统注册</title>
-    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
-    <link rel="stylesheet" type="text/css" href="css/login.css"/>
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-</head>
-<body>
-<div class="main">
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Eye_Tracking</title>
 
-    <div class="loginheader">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/animate.css">
+	<link rel="stylesheet" href="css/login.css">
 
-        <div class="logintitle"><h1>Ctrl_I<br/>用户注册</h1></div>
+	<!-- Modernizr JS -->
+	<script src="js/modernizr-2.6.2.min.js"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
 
-    </div>
+	</head>
+	<body class="style-3">
 
-    <form>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<span class="title">Ctrl_I</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 col-md-push-8">
+					
 
-        <div class="loginform">
+					<!-- Start Sign In Form -->
+					<div class="fh5co-form animate-box" data-animate-effect="fadeInRight">
+						<h2>注册</h2>
+						<!-- <div class="form-group">
+							<div class="alert alert-success" role="alert">您的信息已保存</div>
+						</div> -->
+						<div class="form-group">
+							<label for="userName" class="sr-only">用户名</label>
+							<input type="text" class="form-control" id="userName" placeholder="用户名" autocomplete="off">
+						</div>
+						<div class="form-group">
+							<label for="email" class="sr-only">邮箱</label>
+							<input type="email" class="form-control" id="email" placeholder="邮箱" autocomplete="off">
+						</div>
+						<div class="form-group">
+							<label for="password" class="sr-only">密码</label>
+							<input type="password" class="form-control" id="password" placeholder="密码" autocomplete="off">
+						</div>
+						<div class="form-group">
+							<label for="re-password" class="sr-only">确认密码</label>
+							<input type="password" class="form-control" id="re-password" placeholder="确认密码" autocomplete="off">
+						</div>
+						<div class="form-group">
+							<p>已有账号? <a href="login.html">登录</a></p>
+						</div>
+						<div class="form-group">
+							<button onclick="register()" value="注册" class="btn btn-primary">注册</button>
+						</div>
+					</div>
+					<!-- END Sign In Form -->
 
-            <div class="loginform_row">
 
-                <label>用户名:</label>
+				</div>
+			</div>
+			<div class="row" style="padding-top: 60px; clear: both;">
+				<div class="col-md-12 text-center"><p><small>&copy; All Rights Reserved.<a href="https://github.com/zekdot/Ctrl_I" target="_blank" title="Ctrl_I">Ctrl_I team</a></small></p></div>
+			</div>
+		</div>
+	
+	<!-- jQuery -->
+	<script src="js/jquery.min.js"></script>
+	<!-- Bootstrap -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- Placeholder -->
+	<script src="js/jquery.placeholder.min.js"></script>
+	<!-- Waypoints -->
+	<script src="js/jquery.waypoints.min.js"></script>
+	<!-- Main JS -->
+	<script src="js/main.js"></script>
 
-                <input type="text" class="loginform_input" id="username" />
+	</body>
+<script>
+	var show = false;
+    function check() {
+        if($("#userName").val()=='') {
+            alert("用户名不能为空");
+            $("#userName").focus();
+            return false;
+        }
+        else if($("#email").val()==''){
+            alert("邮箱不能为空");
+            $("#email").focus();
+            return false;
+		}
+        else if(!checkEmail($("#email").val())){
+            $("#email").focus();
+            return false;
+        }
+        else if($("#password").val()==''){
+            alert("密码不能为空");
+            $("#password").focus();
+            return false;
+        }
+		else if(($("#re-password").val()) != ($("#password").val())){
+            alert("两次密码输入不一致");
+            return false;
+		}
+		else{
+		    show = true;
+            return true;
+		}
+    }
 
-            </div>
+    function checkEmail(){
+        var email= $("#email").val();
+        var myReg=/^[a-zA-Z0-9_-]+@([a-zA-Z0-9]+\.)+(com|cn|net|org)$/;
+        if(myReg.test(email)){
+            return true;
+        }else{
+            alert("邮箱格式错误!");
+            return false;
+        }
+    }
 
-            <div class="loginform_row">
+	// $(".btn-primary").click(function () {
+ //        if($(".alert-success").css("display")=="none" && show){
+ //            $(".alert-success").show();
+	// 	}else{
+ //            $(".alert-success").hide();
+	// 	}
+ //    })
 
-                <label>输入密码:</label>
+    function register() {
+        var userName = $("#userName").val();
+        var password = $("#password").val();
+        var email = $("#email").val();
 
-                <input type="password" class="loginform_input" id="password" />
-
-            </div>
-            <div class="loginform_row">
-
-                <label>再次输入密码:</label>
-
-                <input type="password" class="loginform_input" id="password2" />
-
-            </div>
-
-            <div class = "loginform_row">
-
-                <label>邮箱:</label>
-
-                <input type = "text" class="loginform_input_validationCode" id = "email"/>
-
-
-            </div>
-
-            <div class="loginform_row">
-
-                <span class = "returnInfo"></span>
-                <button class="loginform_submit" id='sub'>注册</button>
-
-            </div>
-            <div class="loginform_row">
-                <a href="login.html">已有账号</a>
-            </div>
-
-            <div class="clear"></div>
-
-        </div>
-
-    </form>
-
-</div>
-<script type="text/javascript">
-    $("#sub").click(function(){
-        if(checkInput()) {
-            //$("form").action("/RegisterServlet");
-            data = {'username':$('#username').val(), 'password':$('#password').val(), 'email':$('#email').val()}
+        if(check()){
+            data = {'username':userName, 'password':password, 'email':email}
             $.post('http://localhost:8082/user/register',data,function(str){
                 //alert(str)
                 res = eval('('+str+')');
@@ -84,79 +152,8 @@
                     window.location.href = 'login.html';
                 }
             });
-            return false;
-        }else{
-            return false;
         }
-    });
-
-    function checkInput(){
-
-        //判断用户名
-
-        if($("#username").val() == null || $("#username").val() == ""){
-
-            alert("用户名不能为空");
-
-            $("#username").focus();
-
-            return false;
-
-        }
-
-        //判断密码
-
-        if($("#password").val() == null || $("#password").val() == ""){
-
-            alert("密码不能为空");
-
-            $("#password").focus();
-
-            return false;
-
-        }
-        if($("#password2").val() == null || $("#password2").val() == ""){
-
-            alert("请再次输入密码");
-
-            $("#password2").focus();
-
-            return false;
-
-        }
-
-        if(!($("#password").val() == $("#password2").val())){
-            alert("两次输入的密码不一致");
-            return false;
-
-
-        }
-
-        //判断邮箱
-
-        if($("#email").val() == null || $("#email").val() == ""){
-
-            alert("邮箱不能为空");
-
-            $("#email").focus();
-
-            return false;
-
-        }
-        if(!isEmail($("#email").val())){
-            alert("邮箱格式不正确！")
-             return false;
-        }
-
-
-        return true;
-
-    }
-    function isEmail(str){
-        var reg = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/;
-        return reg.test(str);
     }
 </script>
-
-</body>
 </html>
+

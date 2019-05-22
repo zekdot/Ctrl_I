@@ -1,85 +1,108 @@
+
 <!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Eye_Tracking</title>
 
-<html>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/animate.css">
+	<link rel="stylesheet" href="css/login.css">
 
-<head lang="en">
 
-    <meta charset="UTF-8"/>
-
-    <title>系统登录</title>
-    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
-    <link rel="stylesheet" type="text/css" href="css/login.css"/>
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <!-- cookies -->
-    <script type="text/javascript" src="js/cookiesutil.js"></script>
-
-   <!-- <script src="js/jquery-1.11.1.js"></script>
-
-    <script src="js/login.js"></script>
-
-    <link href="css/style.css" rel="stylesheet" type="text/css" />-->
+	<!-- Modernizr JS -->
+	<script src="js/modernizr-2.6.2.min.js"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
 
 </head>
+<body class="style-3">
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<span class="title">Ctrl_I</span>
+			</div>
+		</div>
 
-<body>
+		<div class="row">
+			<div class="col-md-4 col-md-push-8">
 
-<div class="main">
+				<!-- Start Sign In Form -->
+				<div class="fh5co-form animate-box" data-animate-effect="fadeInRight">
+					<h2>登录</h2>
+					<div class="form-group">
+						<label for="userName" class="sr-only">userName</label>
+						<input type="text" class="form-control" id="userName" placeholder="账号" autocomplete="off">
+					</div>
+					<div class="form-group">
+						<label for="password" class="sr-only">password</label>
+						<input type="password" class="form-control" id="password" placeholder="密码" autocomplete="off">
+					</div>
+					<div class="form-group">
+						<label for="remember"><input type="checkbox" id="remember">记住账号</label>
+					</div>
+					<div class="form-group">
+						<p>没有账号？ <a href="register.html">注册</a> | <a href="forgot">忘记密码?</a></p>
+					</div>
+					<div class="form-group">
+						<button onclick="login()" value="登录" class="btn btn-primary">登陆</button>
+					</div>
+				</div>
+				<!-- END Sign In Form -->
 
-    <div class="loginheader">
 
-        <div class="logintitle"><h1>Ctrl_I<br/>用户登录</h1></div>
+			</div>
+		</div>
+		<div class="row" style="padding-top: 100px; clear: both;">
+			<div class="col-md-12 text-center"><p><small>&copy; All Rights Reserved.<a href="https://github.com/zekdot/Ctrl_I" target="_blank" title="Ctrl_I">Ctrl_I team</a></small></p></div>
+		</div>
+	</div>
 
-    </div>
-
-    <form>
-
-        <div class="loginform">
-
-            <div class="loginform_row">
-
-                <label>用户名:</label>
-
-                <input type="text" class="loginform_input" id="username" />
-
-            </div>
-
-            <div class="loginform_row">
-
-                <label>密码:</label>
-
-                <input type="password" class="loginform_input" id="password" />
-
-            </div>
-
-            <div class="loginform_row">
-
-                <span class = "returnInfo"></span>
-
-                <button class="loginform_submit" id="sub">登录</button>
-
-            </div>
-            <div class="loginform_row">
-                <a href="register.html">注册账号</a>
-            </div>
-
-            <div class="clear"></div>
-
-        </div>
-
-    </form>
-
-</div>
-
+	<!-- jQuery -->
+	<script src="js/jquery.min.js"></script>
+	<!-- Bootstrap -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- Placeholder -->
+	<script src="js/jquery.placeholder.min.js"></script>
+	<!-- Waypoints -->
+	<script src="js/jquery.waypoints.min.js"></script>
+	<!-- Main JS -->
+	<script src="js/main.js"></script>
+    <!-- cookies -->
+    <script type="text/javascript" src="js/cookiesutil.js"></script>
 </body>
-<script type="text/javascript">
-    $("#sub").click(function(){
-        //alert('in')
-        if(checkInput()) {
-            data = {'username' : $('#username').val(), 'password': $('#password').val()};
+<script>
+	function check() {
+        if($("#userName").val()=='') {
+            alert("请输入用户帐号!");
+            $("#userName").focus();
+            return false;
+        }
+        if($("#password").val()==''){
+            alert("请输入登录密码!");
+            $("#password").focus();
+            return false;
+		}
+		return true;
+    }
+
+    function login() {
+        var userName = $("#userName").val();
+        var password = $("#password").val();
+		// window.location.href="signUp";
+        if(check()) {
+            data = {'username' : userName, 'password': password};
             //alert(JSON.stringify(data))
             $.post('http://localhost:8082/user/login',data,function(str,status,xhr){
                 //alert(str)
-                res = eval('('+str+')');
+                var res = eval('('+str+')');
                 if(res.code != 0){
                     alert(res.message);
                 }else{
@@ -87,31 +110,42 @@
                     //console.log(res.object)
                     //alert('top')
                     setCookie('loginCoo',res.object);
-                    window.location.href = 'http://localhost:8081/blog.html';
+                    // $.get('http://localhost:8082/user/info',{},function(str){
+                    //     alert(str)
+                    //     console.log(str);
+                    //     var res = eval('(' + str +')');
+                    //     window.curUserInfo = res;
+                    // });
+                    
+                    document.cookie = 'JSESSIONID=' + res.object;
+
+                    $.ajax({
+                        url : 'http://localhost:8082/user/info',
+                        type : 'GET',
+                        xhrFields: {
+                            withCredentials: true
+                        },
+                        crossDomain: true,
+
+                        success: function(str) {
+                            //console.log(str)
+                            // 保存用户的信息
+                            setCookie("userInfo",str);
+                            // 跳转到主页面
+                            window.location.href = 'http://localhost:8081/index.html';
+                            //var res = eval('(' + str +')');
+                            //window.curUserInfo = res.object;
+                        }
+                    })
+                    
                 }
             });
             return false;
         }else{
             return false;
         }
-    });
-
-    function checkInput(){
-        //判断用户名
-
-        if($("#username").val() == null || $("#username").val() == ""){
-            alert("用户名不能为空");
-            $("#username").focus();
-            return false;
-        }
-        //判断密码
-
-        if($("#password").val() == null || $("#password").val() == ""){
-            alert("密码不能为空");
-            $("#password").focus();
-            return false;
-        }
-        return true;
     }
+
 </script>
 </html>
+

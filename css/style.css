@@ -2342,3 +2342,23 @@ p.reply i{
 	padding :20px;
 	text-align: center;
 }
+.user_text{
+	color: white;
+	font-size: 30px;
+	display: inline;
+}
+.small_user_text{
+	color: white;
+	font-size: 20px;
+	display: inline;
+	margin-left: 10px;
+}
+#register_text{
+	margin-left: 10px;
+}
+#user_div{
+	float:right;
+	top:25px;
+	position: relative;
+}
+

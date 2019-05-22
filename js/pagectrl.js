@@ -2,6 +2,45 @@ window.curLastId = 0;  //当前的最后一篇文章的id，用于翻页
 window.curLevel = 0;    //当前页面层级 0-文章列表页面 1-文章具体页面
 window.historyTop = 0;  //保存历史的滑动距离
 window.historyArts = [];    //保存历史的文章数据
+window.curUserInfo = null;  //用户信息对象
+window.curUserCookie = null;    //用户的cookies
+
+
+jQuery(document).ready(function($) {
+
+    var curUserInfoStr = getCookie("userInfo");
+    window.curUserCookie = getCookie('loginCoo');
+    //console.log(curUserInfoStr)
+    //如果用户已经登录了
+    if(curUserInfoStr != null){
+        // 设置用户信息结构体
+        window.curUserInfo = eval('(' + curUserInfoStr + ')').object;
+        //onclick="userCenter()"
+        $('#user_div').html('<p class = "user_text">欢迎您，</p><a style="cursor:pointer;" href="profile.html" class = "user_text">' + window.curUserInfo.nickname + '</a><span></span><a onclick="logout()" style="cursor:pointer;" class = "small_user_text">登出</a>')
+    }
+            //putArt('{"code":0,"message":"success","object":[{"aId":2,"author":"张兴旺","cover":"images/b2.jpg","title":"爱情是什么","cont":"在这个世上，只要不是完全的独身主义者，爱","time":"2019-04-13 16:20:07","readNum":0},{"aId":1,"author":"孟婷1234","cover":"images/b1.jpg","title":"三十多岁，如何打理尴尬年龄里的凌乱人生","cont":"三十岁是一个分水岭，一边是骄阳似火、山花","time":"2019-04-13 16:18:28","readNum":0}]}')
+});
+
+/**
+ * 进入个人中心
+ *
+ */
+function userCenter(){
+    $("#content").load('profile.html')
+}
+
+
+/**
+ * 注销登录状态
+ *
+ */
+function logout(){
+    // 清除登录相关的cookies
+    deleteCookie("userInfo");
+    deleteCookie("loginCoo");
+    window.location.href = 'http://localhost:8081/index.html';
+}
+
 //window.curReadId = -1;  //当前阅读的文章id
 /**
  * 获取某元素以浏览器左上角为原点的坐标

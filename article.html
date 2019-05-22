@@ -4,12 +4,13 @@
 	 // 	function back(){
 	 // 	    $('#content').load('list.html');//location.href="/blog.html";
 		// }
+
         /**
          * 放置评论
          * @param str 返回字符串
          */
         function putComment(str){
-            console.log(str);
+            //console.log(str);
             // 转换成json对象
             var res = eval('(' + str + ')');
             if(res.code != 0){
@@ -19,7 +20,11 @@
                 for(var i = 0 ;i < comments.length ;i++){
                     //console.log(comments[i]);
                     var comments_item = $('<div class = "comment_item"></div>');
-                    comments_item.append('<b style="font-size: 15px;" class="name">昵称：'+comments[i].uId+'</b>');
+                    comments_item.append('<b style="font-size: 15px;" class="name">昵称：'+comments[i].nickname+'</b>');
+                    //console.log(comments[i].uId + '---' + window.curUserInfo.uId);
+                    // 如果是本人发送的信息
+                    if(window.curUserInfo != null && comments[i].uId == window.curUserInfo.uId)
+                        comments_item.append('<a class = "del_text" onclick = "delComment(' + comments[i].jId + ')">删除</a>');
                     comments_item.append('<br>');
                     comments_item.append('<p class="content">'+comments[i].content+'</p>').append('<br>')
                     comments_item.append('<b class="time">'+comments[i].time+'</b>');
@@ -34,12 +39,47 @@
          *
          */
         function refreshComment(){
+            // 清除已有数据
+            $('#other_comment_div').text('')
+            // 放置提示
+            $('#other_comment_div').append('<b  style="font-size: 20px;">网友评论:</b><br><br>');
             // 构造数据
             data = {'aId':window.articleId};
             // 发送请求病处理返回数据
             $.get('http://localhost:8082/comment/getComByaId',data,putComment);
         }
+        /**
+         * 删除一条评论
+         * @param jId 评论id
+         */
+        function delComment(jId){
+            document.cookie = 'JSESSIONID=' + window.curUserCookie;
+            //console.log(document.cookie)
+            data = {'jId':jId};
+            $.ajax({
+                url : 'http://localhost:8082/comment/delComByjId',
+                data : data,
+                dataType: 'json',
+                type : 'POST',
+                xhrFields: {
+                    withCredentials: true
+                },
+                crossDomain: true,
 
+                success: function(res) {
+                    // alert(str)
+                    // // 将返回值转换为json对象
+                    // res = eval('(' + str + ')');
+                    // 如果提交成功
+                    if(res.code == 0){
+                        refreshComment();
+                    }else{
+
+                        alert(res.message);
+                    }
+                }
+            })
+        }
                   
 		jQuery(document).ready(function($) {
 			//console.log(l)
@@ -99,7 +139,7 @@
             //         }
             //     }
             // });
-            document.cookie = 'JSESSIONID=' + getCookie('loginCoo');
+            document.cookie = 'JSESSIONID=' + window.curUserCookie;
             //console.log(document.cookie)
 
             $.ajax({
@@ -118,7 +158,7 @@
                     // res = eval('(' + str + ')');
                     // 如果提交成功
                     if(res.code == 0){
-                        ;
+                        refreshComment();
                     }else{
 
                         alert(res.message);
@@ -182,6 +222,7 @@
                     <br><br>
                     <div class = "comment_item">
                         <b style="font-size: 15px;" class="name">昵称：哈哈哈哈</b>
+                        <a class = "del_text">删除</a>
                         <br>
                         <p class="content">大家疯狂的世界发链接都是安康路附近都是拉开飞机的临时卡放假了多少阿里看电视<br>健康的数据费两款手机</p>
                         <br>

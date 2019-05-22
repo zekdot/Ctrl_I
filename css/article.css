@@ -61,3 +61,9 @@
 #comment_div .tip {
     color: gray;
 }
+.comment_item .del_text{
+    position: absolute;
+    color:gray;
+    right:10px;
+    cursor: pointer;
+}
