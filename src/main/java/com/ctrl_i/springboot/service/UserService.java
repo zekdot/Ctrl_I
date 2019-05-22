@@ -30,4 +30,11 @@ public interface UserService {
      * @return 是否激活
      */
     public Envelope activateUsername(String username,String code);
+
+    /**
+     * 根据uId获取用户信息
+     * @param uId
+     * @return 用户信息
+     */
+    public Envelope getUserInfo(String uId);
 }

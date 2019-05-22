@@ -22,10 +22,11 @@ public class CommentsServiceTest extends TmallApplicationTests {
         StringBuilder longTextBuilder = new StringBuilder();
         for(int i=0;i<202;i++)
             longTextBuilder.append("哦");
-        Envelope envelope = commentsService.commentArticle(1,"zekdot","测试");
-        Assert.assertEquals(envelope.getCode(),0);
-        envelope = commentsService.commentArticle(1,"zekdot",longTextBuilder.toString());
-        Assert.assertEquals(envelope.getCode(),1);
+        //Envelope envelope = commentsService.commentArticle(1,"zekdot","测试");
+        //Assert.assertEquals(envelope.getCode(),0);
+        //envelope = commentsService.commentArticle(1,"zekdot",longTextBuilder.toString());
+        //Assert.assertEquals(envelope.getCode(),1);
+        commentsService.commentArticle(1,"zekdot","<script>测试攻击</script>??? \nhhh");
     }
     @Test
     public void testGet(){

@@ -39,4 +39,8 @@ public class UserServiceTest extends TmallApplicationTests {
         Assert.assertEquals(userService.login(null,null).getCode(),2);
         Assert.assertEquals(userService.login("test1","123456").getCode(),3);
     }
+    @Test
+    public void testGetInfo(){
+        System.out.println(userService.getUserInfo("zekdot"));
+    }
 }

@@ -7,6 +7,7 @@ import com.ctrl_i.springboot.entity.UserEntity;
 import com.ctrl_i.springboot.service.UserService;
 import com.ctrl_i.springboot.util.EmailUtil;
 import com.ctrl_i.springboot.util.PasswordUtil;
+import com.google.gson.Gson;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -57,6 +58,7 @@ public class UserServiceImpl implements UserService {
         userEntity.setPassword(PasswordUtil.getMd5(password));  //密码md5加盐加密
         userEntity.setEmail(email); //设置邮箱
         userEntity.setState((byte) 0);  //设置状态为未激活
+        userEntity.setNickname(username);   //默认昵称同用户名
         StringBuilder linkBuilder = new StringBuilder();
         linkBuilder.append("http://").append(ConfigConstant.ip).append(":").append(ConfigConstant.fport)
         .append("/activate.html?");
@@ -106,5 +108,20 @@ public class UserServiceImpl implements UserService {
             return Envelope.dbError;
         }
         return Envelope.success;
+    }
+
+    @Override
+    public Envelope getUserInfo(String uId) {
+        try {
+            UserEntity userEntity = userDao.get(uId);
+            if(userEntity == null)
+                return Envelope.unLogin;
+            userEntity.setPassword(null);
+            return new Envelope(userEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Envelope.dbError;
+        }
+
     }
 }

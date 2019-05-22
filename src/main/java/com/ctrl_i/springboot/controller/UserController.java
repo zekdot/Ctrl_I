@@ -1,6 +1,7 @@
 package com.ctrl_i.springboot.controller;
 
 import com.ctrl_i.springboot.dto.Envelope;
+import com.ctrl_i.springboot.entity.UserEntity;
 import com.ctrl_i.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -72,6 +73,20 @@ public class UserController {
     public String activate(String username,String code){
         try{
             return userService.activateUsername(username,code).toString();
+        }catch (Exception e){
+            e.printStackTrace();
+            return Envelope.systemError.toString();
+        }
+    }
+
+    @RequestMapping(value = "/info")
+    @ResponseBody
+    public String info(HttpSession session){
+        UserEntity userEntity = (UserEntity) session.getAttribute("user");
+        if(userEntity == null)
+            return Envelope.unLogin.toString();
+        try{
+            return userService.getUserInfo(userEntity.getuId()).toString();
         }catch (Exception e){
             e.printStackTrace();
             return Envelope.systemError.toString();
