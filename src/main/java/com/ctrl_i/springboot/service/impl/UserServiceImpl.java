@@ -124,4 +124,28 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
+    @Override
+    public Envelope changeUserInfo(String uId, String nickname) {
+        UserEntity userEntity;
+        try {
+            // 首先取得用户实体
+            userEntity = userDao.get(uId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Envelope.dbError;
+        }
+        if(userEntity == null){
+            return new Envelope(1,"没有找到该用户",null);
+        }
+        userEntity.setNickname(nickname);
+        try {
+            // 更新用户实体
+            userDao.update(userEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Envelope.dbError;
+        }
+        return Envelope.success;
+    }
 }

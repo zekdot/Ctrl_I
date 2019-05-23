@@ -37,4 +37,11 @@ public interface UserService {
      * @return 用户信息
      */
     public Envelope getUserInfo(String uId);
+
+    /**
+     * 根据uId修改用户信息
+     * @param nickname 用户昵称
+     * @return  结果
+     */
+    public Envelope changeUserInfo(String uId,String nickname);
 }

@@ -79,6 +79,11 @@ public class UserController {
         }
     }
 
+    /**
+     * 获取用户信息
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/info")
     @ResponseBody
     public String info(HttpSession session){
@@ -87,6 +92,26 @@ public class UserController {
             return Envelope.unLogin.toString();
         try{
             return userService.getUserInfo(userEntity.getuId()).toString();
+        }catch (Exception e){
+            e.printStackTrace();
+            return Envelope.systemError.toString();
+        }
+    }
+
+    /**
+     * 修改用户信息
+     * @param session
+     * @param nickname 昵称
+     * @return
+     */
+    @RequestMapping(value = "/changeInfo",method = RequestMethod.POST)
+    @ResponseBody
+    public String changeInfo(HttpSession session,String nickname){
+        UserEntity userEntity = (UserEntity) session.getAttribute("user");
+        if(userEntity == null)
+            return Envelope.unLogin.toString();
+        try{
+            return userService.changeUserInfo(userEntity.getuId(),nickname).toString();
         }catch (Exception e){
             e.printStackTrace();
             return Envelope.systemError.toString();
