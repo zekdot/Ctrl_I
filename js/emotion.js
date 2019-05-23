@@ -15,6 +15,30 @@ window.emotion = {
 		//调用接口，检测人脸
         facepp.detectFace(dataDic,emotion.dealEmotion);
 	},
+	getScore:function(){
+		import numpy as np
+		#标准情绪向量
+		st_emotion={'国际':[14.67, 0.163, 0.163, 1.936, 68.429, 14.67, 11.633],
+		 '军事':[68.429, 1.936, 11.633, 14.67, 0.163, 14.67, 0.163],
+		 '国内':[14.67, 0.163, 11.633, 1.936, 0.163, 68.429, 14.67],
+		 '台湾':[11.633, 1.936, 14.67, 14.67, 68.429, 0.163, 0.163],
+		 '社评':[1.936, 11.633, 0.163, 68.429, 14.67, 14.67, 0.163],
+		 '社会':[0.163, 14.67, 68.429, 1.936, 14.67, 11.633, 0.163],
+		 '海外看中国':[14.67, 68.429, 0.163, 1.936, 11.633, 14.67, 0.163]}
+
+		def rate(_type,emotion):#计算评分
+		    emotion=np.array(emotion)
+		    types=_type.split('&')#获取所有类型标签
+		    standard=0
+		    for t in types:
+		        standard+=np.array(st_emotion[t])#相加得新的标准情绪向量
+		    cos=np.dot(standard,emotion)/(np.linalg.norm(standard)*np.linalg.norm(emotion))#计算余弦相似度
+		    rate=5*(cos+1)#映射到-10
+		    return rate
+		#print(rate('军事&社会',[1,1,1,1,1,1,1]))
+
+
+	}
 	run:function(){
 		
 	}

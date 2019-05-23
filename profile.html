@@ -1,132 +1,128 @@
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>个人中心</title>
-        <!--Favicon -->
-        <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon"/>
 
-        <!--Bootstrap.min css-->
-        <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+<!--Icons css-->
+<link rel="stylesheet" href="css/pro_icons.css">
 
-        <!--mCustomScrollbar css-->
-        <link rel="stylesheet" href="assets/plugins/scroll-bar/jquery.mCustomScrollbar.css">
+<!--Style css-->
+<link rel="stylesheet" href="css/pro_style.css">
 
-        <!--Icons css-->
-        <link rel="stylesheet" href="assets/css/icons.css">
-
-        <!--Style css-->
-        <link rel="stylesheet" href="assets/css/style.css">
-
-        <!--Sidemenu css-->
-        <link rel="stylesheet" href="assets/plugins/toggle-menu/sidemenu.css">
-
-        <!--Morris css-->
-        <link rel="stylesheet" href="assets/plugins/morris/morris.css">
-        <!--Jquery.min js-->
-        <script src="assets/js/jquery.min.js"></script>
-
-        <!--popper js-->
-        <script src="assets/js/popper.js"></script>
-
-        <!--Tooltip js-->
-        <script src="assets/js/tooltip.js"></script>
-
-        <!--Bootstrap.min js-->
-        <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-
-        <!--Jquery.nicescroll.min js-->
-        <script src="assets/plugins/nicescroll/jquery.nicescroll.min.js"></script>
-
-        <!--Scroll-up-bar.min js-->
-        <script src="assets/plugins/scroll-up-bar/dist/scroll-up-bar.min.js"></script>
-
-        <!--mCustomScrollbar js-->
-        <script src="assets/plugins/scroll-bar/jquery.mCustomScrollbar.concat.min.js"></script>
-
-        <!--Sidemenu js-->
-        <script src="assets/plugins/toggle-menu/sidemenu.js"></script>
-
-        <!--Scripts js-->
-        <script src="assets/js/scripts.js"></script>
-    </head>
-
-    <body>
-
-        <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 col-xl-4 col-md-12 col-sm-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <div class="userprofile social">
-                                        <div class="userpic"> <img src="images/avatar-1.jpeg" alt="" class="userpicimg"> </div>
-                                        <h3 class="username">小橘子</h3>
-                                        <p>程序媛,山东济南</p>
-                                        <div class="text-center mb-2">
-                                            <span><i class="fa fa-star text-warning"></i></span>
-                                            <span><i class="fa fa-star text-warning"></i></span>
-                                            <span><i class="fa fa-star text-warning"></i></span>
-                                            <span><i class="fa fa-star-half-o text-warning"></i></span>
-                                            <span><i class="fa fa-star-o text-warning"></i></span>
-                                        </div>
-                                        <div class="socials text-center"> <a href="" class="btn btn-circle btn-primary ">
-                                            <i class="fa fa-facebook"></i></a> <a href="" class="btn btn-circle btn-danger ">
-                                            <i class="fa fa-google-plus"></i></a> <a href="" class="btn btn-circle btn-info ">
-                                            <i class="fa fa-twitter"></i></a> <a href="" class="btn btn-circle btn-warning "><i class="fa fa-envelope"></i></a>
-                                        </div>
-                                    </div>
+<div id="ctrl-profile">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-xl-4 col-md-12 col-sm-12">
+                <div class="card">
+                    <div>
+                        <div class="text-center">
+                            <div class="userprofile social">
+                                <div class="userpic"> <img src="images/avatar-1.jpeg" alt="" class="userpicimg"> </div>
+                                <h3 class="username" id = "username">小橘子</h3>
+                                <p>程序媛,山东济南</p>
+                                <div class="text-center mb-2">
+                                        <span><i class="fa fa-star text-warning"></i></span>
+                                        <span><i class="fa fa-star text-warning"></i></span>
+                                        <span><i class="fa fa-star text-warning"></i></span>
+                                        <span><i class="fa fa-star-half-o text-warning"></i></span>
+                                        <span><i class="fa fa-star-o text-warning"></i></span>
+                                </div>
+                                <div class="socials text-center"> <a href="" class="btn btn-circle btn-primary ">
+                                    <i class="fa fa-facebook"></i></a> <a href="" class="btn btn-circle btn-danger ">
+                                    <i class="fa fa-google-plus"></i></a> <a href="" class="btn btn-circle btn-info ">
+                                    <i class="fa fa-twitter"></i></a> <a href="" class="btn btn-circle btn-warning "><i class="fa fa-envelope"></i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 col-xl-8 col-md-12 col-sm-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4>详细信息</h4>
-                            </div>
-                            <div class="card-body">
-                                <p><b>用户 ID :</b> Orange233</p>
-                                <p><b>用户昵称 :</b> <span contenteditable="true">Orange Lee </span></p>
-                                <p><b>邮箱 :</b> Orange@gmail.com</p>
-                                <p><b>电话 :</b> +86 12345678900 </p>
-                                <p><b>地址 : </b> 山东济南舜华路1500号,山东大学齐鲁软件学院 </p>
-        													<p class="mb-0"><b>简介 : </b>  <span contenteditable="true"> 这是我呀~~~</span></p>
-        													
-        													<button id="info_update">保存</button>
-                            </div>
-                        </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-xl-8 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>详细信息</h4>
+                    </div>
+                    <div class="card-body">
+                        <p><b>用户 ID :</b> <span id = "uId">Orange233</span></p>
+                        <p><b>用户昵称 :</b> <span contenteditable="true" id = "nickname">Orange Lee </span></p>
+                        <p><b>邮箱 :</b> <span id = "email">Orange@gmail.com</span></p>
+                        <p><b>电话 :</b> +86 12345678900 </p>
+                        <p><b>地址 : </b> 山东济南舜华路1500号,山东大学齐鲁软件学院 </p>
+                        <p class="mb-0"><b>简介 : </b>  <span contenteditable="true"> 这是我呀~~~</span></p>                                                            
+                        <button id="info_update">保存并返回文章阅读页</button>
                     </div>
                 </div>
-
-                <div class="row profile-card">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="card col-lg-12 col-md-12 col-sm-12">
-                            <div class="card-body">
-                                <div class="">
-                                    <div class="col-md-12">
-                                        <div class="media mt-0">
-                                            <div class="media-body">
-                                                <h4 class="media-heading">习近平:奋力开创中部地区崛起新局面<br>
-                                                <small class="text-muted"><i class="fa fa-clock-o"></i> Yesterday, 2:00 am</small> </h4>
-                                                <p>中共中央总书记、国家主席、中央军委主席习近平5月20日至22日在江西考察，主持召开推动中部地区崛起工作座谈会并发表重要讲话。他强调，要坚持以新时代中国特色社会主义思想为指导，全面贯彻党的十九大和十九届二中、三中全会精神，贯彻新发展理念，在供给侧结构性改革上下更大功夫，在实施创新驱动发展战略、发展战略性新兴产业上下更大功夫，积极主动融入国家战略，推动高质量发展，不断增强中部地区综合实力和竞争力，奋力开创中部地区崛起新局面。</p>
-                                                <ul class="nav nav-pills pull-left">
-                                                    <li><a href="" title=""><i class="fa fa-thumbs-o-up"></i> 794</a></li>
-                                                    <li><a href="" title=""><i class="fa fa-commenting-o"></i> 253</a></li>
-                                                    <li><a href="" title=""><i class="fa fa-share"></i> 24</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                          
-                    </div>  
-                </div>
-            <!-- </section> -->
+            </div>
         </div>
-        <br><br><br><br>
 
+        <div class="row profile-card">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card col-lg-12 col-md-12 col-sm-12">
+                    <div class="card-body">
+                        <div class="">
+                            <div class="col-md-12">
+                                <div class="media mt-0">
+                                    <div class="media-body">
+                                        <h4 class="media-heading">习近平:奋力开创中部地区崛起新局面<br>
+                                        <small class="text-muted"><i class="fa fa-clock-o"></i> Yesterday, 2:00 am</small> </h4>
+                                        <p>中共中央总书记、国家主席、中央军委主席习近平5月20日至22日在江西考察，主持召开推动中部地区崛起工作座谈会并发表重要讲话。他强调，要坚持以新时代中国特色社会主义思想为指导，全面贯彻党的十九大和十九届二中、三中全会精神，贯彻新发展理念，在供给侧结构性改革上下更大功夫，在实施创新驱动发展战略、发展战略性新兴产业上下更大功夫，积极主动融入国家战略，推动高质量发展，不断增强中部地区综合实力和竞争力，奋力开创中部地区崛起新局面。</p>
+                                        <ul class="nav nav-pills pull-left">
+                                            <li><a href="" title=""><i class="fa fa-thumbs-o-up"></i> 794</a></li>
+                                            <li><a href="" title=""><i class="fa fa-commenting-o"></i> 253</a></li>
+                                            <li><a href="" title=""><i class="fa fa-share"></i> 24</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>  
+        </div>
+        <!-- </section> -->
+    </div>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        if(window.curUserInfo == null){
+            alert('请先登录！');
+            backArtList(0)
+        }
+        $('#uId').text(window.curUserInfo.uId);
+        $('#nickname').text(window.curUserInfo.nickname);
+        $('#email').text(window.curUserInfo.email);
+        $('#username').text(window.curUserInfo.nickname);
+            //putArt('{"code":0,"message":"success","object":[{"aId":2,"author":"张兴旺","cover":"images/b2.jpg","title":"爱情是什么","cont":"在这个世上，只要不是完全的独身主义者，爱","time":"2019-04-13 16:20:07","readNum":0},{"aId":1,"author":"孟婷1234","cover":"images/b1.jpg","title":"三十多岁，如何打理尴尬年龄里的凌乱人生","cont":"三十岁是一个分水岭，一边是骄阳似火、山花","time":"2019-04-13 16:18:28","readNum":0}]}')
+    });
+    $('#info_update').click(function(){
+        var nickname = $('#nickname').text();
+        var data = {'nickname':nickname};
 
-    </body>
-</html>
+        document.cookie = 'JSESSIONID=' + window.curUserCookie;
+        console.log(document.cookie)
+        //alert(document.cookie)
+
+        $.ajax({
+            url : 'http://localhost:8082/user/changeInfo',
+            data : data,
+            dataType: 'json',
+            type : 'POST',
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
+            success: function(res) {
+                    // alert(str)
+                    // // 将返回值转换为json对象
+                    // res = eval('(' + str + ')');
+                    // 如果提交成功
+                if(res.code == 0){
+                    window.curUserInfo.nickname = nickname;
+                    setCookie("userInfo",console.log(JSON.stringify(window.curUserInfo)));
+                    $('#user_div').html('<p class = "user_text">欢迎您，</p><a style="cursor:pointer;" onclick="userCenter()" class = "user_text">' + window.curUserInfo.nickname + '</a><span></span><a onclick="logout()" style="cursor:pointer;" class = "small_user_text">登出</a>')
+                    backArtList(0)
+                }else{
+                    alert(res.message);
+                }
+            }
+        });
+    });
+</script>
+<br><br><br><br>
