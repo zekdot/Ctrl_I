@@ -38,5 +38,7 @@
         <mapping class="com.ctrl_i.springboot.entity.ArticleEntity"/>
         <mapping class="com.ctrl_i.springboot.entity.UserEntity"/>
         <mapping class="com.ctrl_i.springboot.entity.CommentsEntity"/>
+        <mapping class="com.ctrl_i.springboot.entity.ReadEntity"/>
+        <mapping class="com.ctrl_i.springboot.entity.RecommendEntity"/>
     </session-factory>
 </hibernate-configuration>
