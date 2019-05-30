@@ -14,7 +14,7 @@ public class ReadEntity {
     private String uId;
     private int aId;
     private Timestamp time;
-    private byte judge;
+    private double rate;
 
     @Id
     @Column(name = "u_id")
@@ -36,7 +36,7 @@ public class ReadEntity {
         this.aId = aId;
     }
 
-    @Id
+    @Basic
     @Column(name = "time")
     public Timestamp getTime() {
         return time;
@@ -47,13 +47,13 @@ public class ReadEntity {
     }
 
     @Basic
-    @Column(name = "judge")
-    public byte getJudge() {
-        return judge;
+    @Column(name = "rate")
+    public double getRate() {
+        return rate;
     }
 
-    public void setJudge(byte judge) {
-        this.judge = judge;
+    public void setRate(double rate) {
+        this.rate = rate;
     }
 
     @Override
@@ -62,13 +62,13 @@ public class ReadEntity {
         if (o == null || getClass() != o.getClass()) return false;
         ReadEntity that = (ReadEntity) o;
         return aId == that.aId &&
-                judge == that.judge &&
+                Double.compare(that.rate, rate) == 0 &&
                 Objects.equals(uId, that.uId) &&
                 Objects.equals(time, that.time);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uId, aId, time, judge);
+        return Objects.hash(uId, aId, time, rate);
     }
 }

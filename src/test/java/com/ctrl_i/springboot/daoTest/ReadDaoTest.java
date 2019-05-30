@@ -22,7 +22,7 @@ public class ReadDaoTest extends TmallApplicationTests {
         readEntity.setaId(1);
         readEntity.setuId("test");
         readEntity.setTime(new Timestamp(new Date().getTime()));
-        readEntity.setJudge((byte) 6);
+        readEntity.setRate(5.2);
         try {
             readDao.save(readEntity);
         } catch (Exception e) {
