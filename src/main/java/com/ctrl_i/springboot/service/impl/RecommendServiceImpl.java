@@ -2,6 +2,7 @@ package com.ctrl_i.springboot.service.impl;
 import com.ctrl_i.springboot.dao.ArticleDao;
 import com.ctrl_i.springboot.dao.ReadDao;
 import com.ctrl_i.springboot.dao.UserDao;
+import com.ctrl_i.springboot.dto.Envelope;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,7 +26,7 @@ public class RecommendServiceImpl {
     UserDao userDao;
     ReadDao readDao;
     ArticleDao articleDao;
-    public void recommend() {
+    public Envelope recommend() {
         /**
          * UID	     Article ID
          * 'str'	   1  2 3
@@ -34,11 +35,23 @@ public class RecommendServiceImpl {
         System.out.println("Input the total users number:");
 
         //输入用户总量
-        String [] users={};  // TODO:从数据库获取用户列表
+        String [] users= new String[0];  // TODO:从数据库获取用户列表
+        try {
+            users = userDao.getUserArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Envelope.dbError;
+        }
 
         int N = users.length;    // 用户总数
         int[][] sparseMatrix = new int[N][N];//建立用户矩阵，用于用户相似度计算【相似度矩阵】
-        Map<String,Map<Integer,Integer>> userScore = new HashMap<>();  //用户 文章 评分存储  TODO：数据库中获取
+        HashMap<String, HashMap<Integer, Double>> userScore = null;  //用户 文章 评分存储  TODO：数据库中获取
+        try {
+            userScore = readDao.getUserScore();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         Map<String, Integer> userArticleLength = new HashMap<>();//存储每一个用户阅读的文章总数  eg: '用户1' 3
         Map<Integer, Set<String>> articleUserCollection = new HashMap<>();//建立文章到用户的倒排表 eg: 1 '用户1' '用户2'
         Set<Integer> articles = new HashSet<>();//辅助存储文章集合
@@ -49,7 +62,7 @@ public class RecommendServiceImpl {
         for(int i = 0; i < N ; i++){//依次处理N个用户
             Integer[] user_article={1,2,3};  // TODO: 从数据库获取当前用户的文章列表
             for(Integer article:user_article){
-                int score = 10; //TODO: 获取到每个用户对每个文章的评分
+                double score = 10; //TODO: 获取到每个用户对每个文章的评分
                 userScore.get(users[i]).put(article,score);
             }
             int length=user_article.length;
@@ -108,6 +121,7 @@ public class RecommendServiceImpl {
             }
         }
         scanner.close();
+        return null;
     }
 }
 

@@ -8,6 +8,7 @@ import org.junit.Test;
 import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Create by zekdot on 19-5-30.
@@ -25,6 +26,15 @@ public class ReadDaoTest extends TmallApplicationTests {
         readEntity.setRate(5.2);
         try {
             readDao.save(readEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void getUserScoreTest(){
+        try {
+            Map map=readDao.getUserScore();
+            System.out.println(map.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

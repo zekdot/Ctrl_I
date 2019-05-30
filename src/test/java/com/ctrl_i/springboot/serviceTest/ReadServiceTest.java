@@ -13,10 +13,10 @@ public class ReadServiceTest extends TmallApplicationTests {
     @Test
     public void rateWhileRead(){
         //System.out.println("new entity");
-        Envelope e=readService.rateWhileRead("zekdot",1,8.1);
+        Envelope e=readService.rateWhileRead("lrc",1,9);
         //System.out.println("new entity");
         Assert.assertEquals(0,e.getCode());
-        e=readService.rateWhileRead("zekdot",1,4.9);
+        e=readService.rateWhileRead("lrc",1,7);
         Assert.assertEquals(0,e.getCode());
     }
 }
