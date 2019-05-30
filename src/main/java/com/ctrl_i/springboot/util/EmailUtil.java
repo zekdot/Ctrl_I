@@ -121,7 +121,7 @@ public class EmailUtil {
 
         return message;
     }
-//    public static void main(String[] args) throws Exception{
+//    public static void recommend(String[] args) throws Exception{
 //        User item = new User("a","a","a");
 //        item.setUser_email("2629248255@qq.com");
 //        email.send(item,"http://localhost:8080/login");

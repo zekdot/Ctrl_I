@@ -1,4 +1,10 @@
 package com.ctrl_i.springboot.service.impl;
+import com.ctrl_i.springboot.dao.ArticleDao;
+import com.ctrl_i.springboot.dao.ReadDao;
+import com.ctrl_i.springboot.dao.UserDao;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -12,9 +18,14 @@ import java.util.Set;
  * @author Jemary
  *
  */
+@Service
 public class RecommendServiceImpl {
 
-    public static void main(String[] args) {
+    @Resource
+    UserDao userDao;
+    ReadDao readDao;
+    ArticleDao articleDao;
+    public void recommend() {
         /**
          * UID	     Article ID
          * 'str'	   1  2 3
@@ -23,7 +34,8 @@ public class RecommendServiceImpl {
         System.out.println("Input the total users number:");
 
         //输入用户总量
-        String [] users={"A","B"};  // TODO:从数据库获取用户列表
+        String [] users={};  // TODO:从数据库获取用户列表
+
         int N = users.length;    // 用户总数
         int[][] sparseMatrix = new int[N][N];//建立用户矩阵，用于用户相似度计算【相似度矩阵】
         Map<String,Map<Integer,Integer>> userScore = new HashMap<>();  //用户 文章 评分存储  TODO：数据库中获取
