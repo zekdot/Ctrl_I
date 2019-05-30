@@ -60,7 +60,7 @@ public class ArticleServiceImpl implements ArticleService {
             }else{
                 jsonObject.put("cover",articleEntity.getCover());   //文章封面
             }
-
+            jsonObject.put("type",articleEntity.getType());    //文章类型
             jsonObject.put("title",articleEntity.getTitle());   //文章标题
             String content = getTextContent(articleEntity.getContent());
             jsonObject.put("cont",content.substring(0,WORD_LIMIT > content.length() ? content.length() : WORD_LIMIT));
