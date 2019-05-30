@@ -1,7 +1,9 @@
 package com.ctrl_i.springboot.service.impl;
 
+import com.ctrl_i.springboot.dao.ArticleDao;
 import com.ctrl_i.springboot.dao.ReadDao;
 import com.ctrl_i.springboot.dto.Envelope;
+import com.ctrl_i.springboot.entity.ArticleEntity;
 import com.ctrl_i.springboot.entity.ReadEntity;
 import com.ctrl_i.springboot.entity.ReadEntityPK;
 import com.ctrl_i.springboot.service.ReadService;
@@ -13,8 +15,11 @@ import java.sql.Timestamp;
 public class ReadServiceImpl implements ReadService {
     @Resource
     ReadDao readDao;
+    @Resource
+    private ArticleDao articleDao;
     @Override
     public Envelope rateWhileRead(String uid, int aid, double rate) {
+
         ReadEntityPK ua=new ReadEntityPK();
         ua.setuId(uid);
         ua.setaId(aid);
@@ -29,6 +34,17 @@ public class ReadServiceImpl implements ReadService {
                 readEntity.setTime(new Timestamp(System.currentTimeMillis()));
                 readEntity.setRate(rate);
                 readDao.save(readEntity);
+                try {
+                    // 读取文章
+                    ArticleEntity articleEntity = articleDao.get(aid);
+                    // 阅读数加一
+                    articleEntity.setReadNum(articleEntity.getReadNum()+1);
+                    // 更新文章阅读数
+                    articleDao.update(articleEntity);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return Envelope.dbError;
+                }
                 return Envelope.success;
             }
             double oldRate=readEntity.getRate();

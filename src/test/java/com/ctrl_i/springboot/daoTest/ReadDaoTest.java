@@ -8,6 +8,7 @@ import org.junit.Test;
 import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,6 +36,18 @@ public class ReadDaoTest extends TmallApplicationTests {
         try {
             Map map=readDao.getUserScore();
             System.out.println(map.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void getReadUser(){
+        try {
+            List<String> list = readDao.getUserId();
+            for(String id : list){
+                System.out.println(id);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

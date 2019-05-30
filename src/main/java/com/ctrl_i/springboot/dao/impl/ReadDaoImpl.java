@@ -1,8 +1,12 @@
 package com.ctrl_i.springboot.dao.impl;
 
+import com.ctrl_i.springboot.HibernateUtil;
 import com.ctrl_i.springboot.dao.ReadDao;
 import com.ctrl_i.springboot.entity.ReadEntity;
 import com.ctrl_i.springboot.entity.ReadEntityPK;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -36,5 +40,19 @@ public class ReadDaoImpl extends BaseDaoImpl<ReadEntityPK, ReadEntity> implement
     public int[] getUserArticle(String uid) {
 
         return new int[0];
+    }
+
+    @Override
+    public List<String> getUserId() throws Exception {
+        Session session= HibernateUtil.getSession();
+        String hql = "select distinct uId from ReadEntity";
+        try{
+            Query query = session.createQuery(hql);
+            return query.list();
+        }catch (Exception e) {
+            throw e;
+        }finally {
+            HibernateUtil.closeSession();
+        }
     }
 }

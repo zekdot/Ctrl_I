@@ -23,8 +23,8 @@ public class ArticleServiceImpl implements ArticleService {
     @Resource
     private ArticleDao articleDao;
     private static int PAGE_SIZE=18;   //每页18条
-    private static int WORD_LIMIT = 70;    //缩略文字数
-    private static String PIC_URL="http://localhost:8081/images/"; //文章的图片URL
+
+
 
     /**
      * 获取文字内容

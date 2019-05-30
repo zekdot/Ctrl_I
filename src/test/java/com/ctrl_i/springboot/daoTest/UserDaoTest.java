@@ -37,4 +37,17 @@ public class UserDaoTest extends TmallApplicationTests {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void testGetUserArray(){
+        try {
+            String[] userIds = userDao.getUserArray();
+            for(String userId:userIds){
+                System.out.println(userId);
+            }
+            //System.out.println(userDao.getUserArray());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
