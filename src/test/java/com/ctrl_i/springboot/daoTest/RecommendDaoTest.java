@@ -2,7 +2,9 @@ package com.ctrl_i.springboot.daoTest;
 
 import com.ctrl_i.springboot.TmallApplicationTests;
 import com.ctrl_i.springboot.dao.RecommendDao;
+import com.ctrl_i.springboot.dao.UserDao;
 import com.ctrl_i.springboot.entity.RecommendEntity;
+import org.apache.catalina.User;
 import org.junit.Test;
 
 import javax.annotation.Resource;
@@ -15,6 +17,8 @@ import java.util.Date;
 public class RecommendDaoTest extends TmallApplicationTests {
     @Resource
     private RecommendDao recommendDao;
+    @Resource
+    private UserDao userDao;
     @Test
     public void testInsert(){
         RecommendEntity recommendEntity = new RecommendEntity();
@@ -23,6 +27,16 @@ public class RecommendDaoTest extends TmallApplicationTests {
         recommendEntity.setuId("test");
         try {
             recommendDao.save(recommendEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void getUidArrayTest(){
+        try {
+            String[] uls=userDao.getUserArray();
+            for (String s:uls)
+                System.out.println(s);
         } catch (Exception e) {
             e.printStackTrace();
         }

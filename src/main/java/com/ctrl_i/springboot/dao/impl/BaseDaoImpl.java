@@ -2,6 +2,7 @@ package com.ctrl_i.springboot.dao.impl;
 
 import com.ctrl_i.springboot.HibernateUtil;
 import com.ctrl_i.springboot.dao.BaseDao;
+import com.ctrl_i.springboot.entity.UserEntity;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
