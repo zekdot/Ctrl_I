@@ -11,4 +11,5 @@ import java.util.Map;
  */
 public interface ReadDao extends BaseDao<ReadEntityPK, ReadEntity> {
     public HashMap<String, HashMap<Integer,Double>> getUserScore() throws Exception;
+    public int[] getUserArticle(String uid);
 }

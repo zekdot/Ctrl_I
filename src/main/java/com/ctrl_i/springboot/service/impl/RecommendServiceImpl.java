@@ -35,7 +35,7 @@ public class RecommendServiceImpl {
         System.out.println("Input the total users number:");
 
         //输入用户总量
-        String [] users= new String[0];  // TODO:从数据库获取用户列表
+        String [] users= new String[0];  // TODO:从数据库获取用户列表 done
         try {
             users = userDao.getUserArray();
         } catch (Exception e) {
@@ -45,11 +45,12 @@ public class RecommendServiceImpl {
 
         int N = users.length;    // 用户总数
         int[][] sparseMatrix = new int[N][N];//建立用户矩阵，用于用户相似度计算【相似度矩阵】
-        HashMap<String, HashMap<Integer, Double>> userScore = null;  //用户 文章 评分存储  TODO：数据库中获取
+        HashMap<String, HashMap<Integer, Double>> userScore = null;  //用户 文章 评分存储  TODO：数据库中获取 done
         try {
             userScore = readDao.getUserScore();
         } catch (Exception e) {
             e.printStackTrace();
+            return  Envelope.dbError;
         }
 
         Map<String, Integer> userArticleLength = new HashMap<>();//存储每一个用户阅读的文章总数  eg: '用户1' 3
@@ -60,9 +61,9 @@ public class RecommendServiceImpl {
 
 
         for(int i = 0; i < N ; i++){//依次处理N个用户
-            Integer[] user_article={1,2,3};  // TODO: 从数据库获取当前用户的文章列表
+            Integer[] user_article= (Integer[]) userScore.get(users[i]).keySet().toArray();  // TODO: 从数据库获取当前用户的文章列表 done
             for(Integer article:user_article){
-                double score = 10; //TODO: 获取到每个用户对每个文章的评分
+                double score = userScore.get(users[i]).get(article); //TODO: 获取到每个用户对每个文章的评分 done
                 userScore.get(users[i]).put(article,score);
             }
             int length=user_article.length;
@@ -121,7 +122,7 @@ public class RecommendServiceImpl {
             }
         }
         scanner.close();
-        return null;
+        return Envelope.success;
     }
 }
 

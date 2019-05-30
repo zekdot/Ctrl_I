@@ -31,4 +31,10 @@ public class ReadDaoImpl extends BaseDaoImpl<ReadEntityPK, ReadEntity> implement
         }
         return userScore;
     }
+
+    @Override
+    public int[] getUserArticle(String uid) {
+
+        return new int[0];
+    }
 }
