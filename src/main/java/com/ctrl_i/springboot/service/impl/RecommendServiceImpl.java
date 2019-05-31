@@ -50,7 +50,7 @@ public class RecommendServiceImpl implements RecommendService {
          * 'str'	   1  2 3
          */
         //Scanner scanner = new Scanner(System.in);
-        System.out.println("Input the total users number:");
+        //System.out.println("Input the total users number:");
 
         // 输入用户总量
         //String [] users = null;  // TODO:从数据库获取用户列表 done
@@ -92,9 +92,9 @@ public class RecommendServiceImpl implements RecommendService {
                 // 跳过
                 continue;
             }
-            // TODO: 从数据库获取当前用户的文章列表 done
+            // 从数据库获取当前用户的文章列表 done
             Object[] user_article= userScore.get(users.get(i)).keySet().toArray();
-            //TODO: 获取到每个用户对每个文章的评分 done
+            //获取到每个用户对每个文章的评分 done
             for(Object article:user_article){
                 double score = userScore.get(users.get(i)).get(article);
                 userScore.get(users.get(i)).put((Integer) article,score);
@@ -117,7 +117,7 @@ public class RecommendServiceImpl implements RecommendService {
                 }
             }
         }
-        System.out.println(articleUserCollection.toString());
+        //System.out.println(articleUserCollection.toString());
         //计算相似度矩阵【稀疏】
         Set<Entry<Integer, Set<String>>> entrySet = articleUserCollection.entrySet();
         Iterator<Entry<Integer, Set<String>>> iterator = entrySet.iterator();
@@ -132,16 +132,16 @@ public class RecommendServiceImpl implements RecommendService {
                 }
             }
         }
-        System.out.println(userArticleLength.toString());
-        System.out.println(users.toString());
+        //System.out.println(userArticleLength.toString());
+        //System.out.println(users.toString());
         // users为全部用户id
         // 遍历所有用户id
         for(String recommendUser:users){
             // 用于保存 文章id--相似度
             List<ArtDeg> artDegs = new ArrayList<>();
             //String recommendUser = "A USER"; // TODO:网页逻辑 获取当前用户ID
-            System.out.println(userID.get(recommendUser));
-            System.out.println(recommendUser);
+            //System.out.println(userID.get(recommendUser));
+            //System.out.println(recommendUser);
             if(userID.get(recommendUser) == null){
                 continue;
             }
@@ -150,14 +150,14 @@ public class RecommendServiceImpl implements RecommendService {
             for (int j = 0;j < sparseMatrix.length; j++) {
                 if(j != recommendUserId){
                     //if(userID)
-                    System.out.println(idUser.toString());
-                    System.out.println("______idUser get" + idUser.get(j));
-                    System.out.println(idUser.get(recommendUserId)+
-                            "--"+idUser.get(j)+"相似度:"
-                            +sparseMatrix[recommendUserId][j]
-                            /Math.sqrt(userArticleLength.get(idUser.get(recommendUserId))
-                            *userArticleLength.get(
-                                    idUser.get(j))));
+                    //System.out.println(idUser.toString());
+                    //System.out.println("______idUser get" + idUser.get(j));
+                    //System.out.println(idUser.get(recommendUserId)+
+                    //        "--"+idUser.get(j)+"相似度:"
+                    //        +sparseMatrix[recommendUserId][j]
+                    //        /Math.sqrt(userArticleLength.get(idUser.get(recommendUserId))
+                    //       *userArticleLength.get(
+                    //                idUser.get(j))));
 
                 }
             }
@@ -168,10 +168,10 @@ public class RecommendServiceImpl implements RecommendService {
                 if(!curUsers.contains(recommendUser)){//如果被推荐用户没读过，则进行推荐度计算
                     double itemRecommendDegree = 0.0;
                     for(String user: curUsers){
-                        System.out.println("cur user is "+user);
-                        System.out.println(userArticleLength.get(recommendUser));
+                        //System.out.println("cur user is "+user);
+                        //System.out.println(userArticleLength.get(recommendUser));
                         //System.out.println(Integer.valueOf(sparseMatrix[userID.get(recommendUser)]));
-                        System.out.println(userArticleLength.get(user));
+                        //System.out.println(userArticleLength.get(user));
                         itemRecommendDegree += userScore.get(user).get(article) * sparseMatrix[userID.get(recommendUser)][userID.get(user)]
                                 /Math.sqrt(userArticleLength.get(recommendUser)*userArticleLength.get(user));// 用户对文章评分 * 用户相似度
                     }
