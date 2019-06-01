@@ -41,6 +41,8 @@ label{
 .header {
 	background:#317bc3;
 	padding-bottom:2em;
+	height: 49px;
+	position: relative;
 }
 .logo {
 	float:left;
@@ -2345,22 +2347,29 @@ p.reply i{
 }
 .user_text{
 	color: white;
-	font-size: 30px;
+	font-size: 14px;
 	display: inline;
 }
 .small_user_text{
 	color: white;
-	font-size: 20px;
+	font-size: 14px;
 	display: inline;
 	margin-left: 10px;
 }
 #register_text{
 	margin-left: 10px;
 }
+/*
 #user_div{
 	float:right;
 	top:25px;
 	position: relative;
 	left:220px;
+}*/
+#user_div{
+	position: absolute;
+	height: 48px;
+	right: 16px;
+	line-height: 48px;
 }
 
