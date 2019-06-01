@@ -52,7 +52,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     		$('#target').css('opacity', '0.9');
     		// 运行模型
     		setInterval(moveTarget, 100);
-    		//setInterval(emotionRun,5000);
+    		setInterval(emotionRun,5000);
             setInterval(gestureRun,1000);
             $('#open-config').click(function(){
                 if($('#config-list').css('width') == '0px'){
@@ -166,29 +166,34 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	}
 
     #open-config {
+        background-color: #abaaaae6;
         position: absolute;
         top: 22%;
         right: 0px;
         height: 75px;
         border: 0;
         border-left: 1px solid rgb(23, 32, 43, 0.2);
-        background: #AA3344;
+        /*background: #AA3344;*/
         color: #fff;
         cursor: pointer;
     }
         
     .box {
         /*float: right;*/
+        background-color: #abaaaab3;
+        color: white;
         position: fixed;
         right: 0;
         height: 1000px;
         width: 0px;
         margin-left: 0;
         display: block;
-        background-color: #a34;
         -moz-transition: margin-right 2s;
         transition: margin-right 2s;
         z-index: 999;
+    }
+    .box input{
+        color:black;
     }
         
     aside ul li {
@@ -279,9 +284,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- header-section-starts -->
 <div class="header" id="header">
 	<div class="container">
-		<div class="logo">
+		<!-- <div class="logo">
 			<a href="index.html"><img src="images/logo.png" alt="" /></a>
-		</div>
+		</div> -->
 		<div class="social-icons header-social-icons">
             
             
@@ -289,6 +294,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div id = "user_div">
                 <a href="login.html" class = "user_text">登录</a>
                 <a href="register.html" id = "register_text" class = "user_text">注册</a>
+                
             <!-- <p  class = "user_text">欢迎您，</p><a href="" class = "user_text">zek</a> -->
         </div>
 		<div class="clearfix"></div>

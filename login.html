@@ -77,6 +77,8 @@
 	<script src="js/main.js"></script>
     <!-- cookies -->
     <script type="text/javascript" src="js/cookiesutil.js"></script>
+    <!-- config -->
+    <script type="text/javascript" src="js/config.js"></script>
 </body>
 <script>
 	function check() {
@@ -100,7 +102,7 @@
         if(check()) {
             data = {'username' : userName, 'password': password};
             //alert(JSON.stringify(data))
-            $.post('http://localhost:8082/user/login',data,function(str,status,xhr){
+            $.post(window.backhost + ':8082/user/login',data,function(str,status,xhr){
                 //alert(str)
                 var res = eval('('+str+')');
                 if(res.code != 0){
@@ -120,7 +122,7 @@
                     document.cookie = 'JSESSIONID=' + res.object;
 
                     $.ajax({
-                        url : 'http://localhost:8082/user/info',
+                        url : window.backhost + ':8082/user/info',
                         type : 'GET',
                         xhrFields: {
                             withCredentials: true
@@ -132,7 +134,7 @@
                             // 保存用户的信息
                             setCookie("userInfo",str);
                             // 跳转到主页面
-                            window.location.href = 'http://localhost:8081/index.html';
+                            window.location.href = window.fronthost + ':8081/index.html';
                             //var res = eval('(' + str +')');
                             //window.curUserInfo = res.object;
                         }

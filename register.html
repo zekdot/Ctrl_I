@@ -82,7 +82,8 @@
 	<script src="js/jquery.waypoints.min.js"></script>
 	<!-- Main JS -->
 	<script src="js/main.js"></script>
-
+    <!-- config -->
+    <script type="text/javascript" src="js/config.js"></script>
 	</body>
 <script>
 	var show = false;
@@ -142,7 +143,7 @@
 
         if(check()){
             data = {'username':userName, 'password':password, 'email':email}
-            $.post('http://localhost:8082/user/register',data,function(str){
+            $.post(window.backhost + '8082/user/register',data,function(str){
                 //alert(str)
                 res = eval('('+str+')');
                 if(res.code != 0){

@@ -1,20 +1,21 @@
 #comment_text{
-    width: 883px;
+    width: 850px;
     height: 108px;
 }
 #comment_div{
-    border: solid;
-    border-color: red;
+    /*border: solid;
+    border-color: red;*/
     position: relative;
     width: 900px;
     height: 240px;
+    padding: 25px;
 }
 #comment_submit{
     right: 20px;
     position: absolute;
-    width: 100px;
-    height: 50px;
-    top: 170px;
+    width: 80px;
+    height: 30px;
+    top: 200px;
     margin-bottom: 8%;
     text-align: center;
     background: #21A957;
@@ -29,8 +30,9 @@
 #other_comment_div{
     
     top: 40px;
-    border: solid;
-    border-color: red;
+    /*border: solid;
+    border-color: red;*/
+    padding:25px;
     position: relative;
 }
 .comment_item .time{
@@ -43,15 +45,17 @@
     width: 800px;
     height: 200px;
     left: 40px;
-    border: solid;
-    border-color: yellow;
+    /*border: solid;
+    border-color: yellow;*/
     position: relative;
     margin-bottom: 40px;
+    background:#f9f9f9;
+    padding:15px;
 }
 .comment_item .content {
     position: absolute;
-    left:10px;
-    top:40px;
+    left:30px;
+    top:50px;
 }
 
 .comment_item .name {
@@ -66,4 +70,16 @@
     color:gray;
     right:10px;
     cursor: pointer;
+}
+.back img{
+    position: fixed;
+    width: 300px;
+    top:400px;
+    opacity:0;
+}
+.back_left img{
+    left: 10px;
+}
+.back_right img{
+    right: 10px;
 }

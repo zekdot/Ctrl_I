@@ -1,4 +1,9 @@
  <link href="css/article.css" rel="stylesheet" type="text/css" media="all" />
+ 
+ <!--Style css-->
+<link rel="stylesheet" href="css/pro_style.css">
+ 
+ 
  <script type="text/javascript">
         
 	 // 	function back(){
@@ -20,7 +25,7 @@
                 for(var i = 0 ;i < comments.length ;i++){
                     //console.log(comments[i]);
                     var comments_item = $('<div class = "comment_item"></div>');
-                    comments_item.append('<b style="font-size: 15px;" class="name">昵称：'+comments[i].nickname+'</b>');
+                    comments_item.append('<b style="font-size: 18px;" class="name">昵称：'+comments[i].nickname+'</b>');
                     //console.log(comments[i].uId + '---' + window.curUserInfo.uId);
                     // 如果是本人发送的信息
                     if(window.curUserInfo != null && comments[i].uId == window.curUserInfo.uId)
@@ -109,6 +114,9 @@
                     $('#a_title').html(art.title)
                     $('#a_content').html(art.content)
                     $('#a_author').html(art.author)
+
+                    window.curArticleId = art.aId; // 当前读取的文章id
+                    window.curArticleType = art.type;   //当前读取的文章类型
                 }
 			}
 			$.get('http://localhost:8082/article/info',{'id':id},putArt)  //请求后台数据
@@ -207,17 +215,20 @@
 					<div class="clearfix"> </div>
 				</div>
 				<div id="a_content"></div>
-                <div class="back" onclick="backArtList(window.articleId)">
+                <div class="back back_left" onclick="backArtList(window.articleId)">
                     <img src="images/back_list.jpg">
                 </div>
-                <div id = "comment_div">
+                <div class="back back_right" onclick="backArtList(window.articleId)">
+                    <img src="images/back_list.jpg">
+                </div>
+                <div id = "comment_div" class="card">
                     <b style="font-size: 20px;">您的评论:</b><br>
                     <b class="tip">请不要超过200个汉字。</b>
                     <textarea id = "comment_text"></textarea>
                     <br>
                     <button id = "comment_submit">提交</button>
                 </div>
-                <div id = "other_comment_div">
+                <div id = "other_comment_div" class="card">
                     <b  style="font-size: 20px;">网友评论:</b>
                     <br><br>
                     <div class = "comment_item">

@@ -14,6 +14,7 @@ $(document).ready(function() {
     trackingStarted: false,
     currentPosition: null,
     currentEyeRect: null,
+    isDetect : true,
 
     adjustVideoProportions: function() {
       // resize overlay and video if proportions of video are not 4:3
@@ -31,6 +32,7 @@ $(document).ready(function() {
 
     gumSuccess: function(stream) {
       //ui.onWebcamEnabled();
+      //console.log('stream is ' + stream)
       console.log('摄像头成功启动');
       // add camera stream if getUserMedia succeeded
       if ('srcObject' in facetracker.video) {
@@ -83,9 +85,12 @@ $(document).ready(function() {
         facetracker.videoHeightExternal,
       );
       if (facetracker.currentPosition) {
+        facetracker.isDetect = true;
         facetracker.trackFace(facetracker.currentPosition);
         facetracker.ctrack.draw(facetracker.overlay);
         //ui.onFoundFace();
+      }else{
+        facetracker.isDetect =false;
       }
     },
 
@@ -110,7 +115,6 @@ $(document).ready(function() {
 
       const width = maxX - minX;
       const height = maxY - minY - 5;
-
       return [minX, minY, width, height * 1.25];
     },
 
@@ -130,11 +134,13 @@ $(document).ready(function() {
       const rect = facetracker.getEyesRect(position);
       facetracker.currentEyeRect = rect;
       
-      const faceRect=facetracker.getFaceRect(position);
+      const faceRect = facetracker.getFaceRect(position);
       
       const eyesCanvas = document.getElementById('eyes');
+      
       const eyesCtx = eyesCanvas.getContext('2d');
       const faceCanvas= document.getElementById('face');
+      
       const faceCtx = faceCanvas.getContext('2d');
 
       // Resize because the underlying video might be a different resolution:
@@ -170,6 +176,8 @@ $(document).ready(function() {
         faceCanvas.width,
         faceCanvas.height,
       );
+      adjustImageGamma(eyesCanvas);
+      adjustImageGamma(faceCanvas);
     },
   };
 
@@ -198,3 +206,68 @@ $(document).ready(function() {
   facetracker.ctrack = new clm.tracker();
   facetracker.ctrack.init();
 });
+
+function getGammaVal(imageData) {
+  var pixData = imageData.data;
+  var grayNum = pixData.length / 4;
+  var totalGrayVal = 0;
+  for (var i = 0; i < pixData.length; i += 4) {
+    /* RGB to Luma: 
+     * http://stackoverflow.com/questions/37159358/save-canvas-in-grayscale */
+    //var grayscale = pix[i] * 0.2126 + pix[i+1] * 0.7152 + pix[i+2] * 0.0722;
+    var grayscale = (pixData[i] + pixData[i+1] + pixData[i+2]) / 3;
+    totalGrayVal = totalGrayVal + grayscale;
+  }
+  var mean = totalGrayVal / grayNum;
+  var gammaVal = Math.log10(mean/255) / Math.log10(0.5);
+  return gammaVal;
+}
+
+/**
+ * 修正图片gamma值
+ *
+ */
+function adjustImageGamma(canvas) {
+
+  //canvas.id = img.id;
+  //canvas.className = img.className;
+  //canvas.width = img.naturalWidth;
+  //canvas.width = img.width;
+  //canvas.height = img.naturalHeight;
+  //canvas.height = img.height;
+  
+  var ctx = canvas.getContext('2d');
+  //ctx.drawImage(img, 0, 0);
+  //ctx.drawImage(img, 0, 0, img.width, img.height);
+  
+  //var image_parentNode = img.parentNode;
+  //image_parentNode.replaceChild(canvas, img);
+    
+  //imageData = ctx.getImageData(0, 0, img.naturalWidth, img.naturalHeight);
+  var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  
+  var gammaVal = getGammaVal(imageData);
+  var gammaCorrection = 1 / gammaVal;
+  
+  //setTimeout(function() {
+    //for ( y = 0; y < image.naturalHeight; y++) {
+    for ( y = 0; y < canvas.height; y++) {
+      //for ( x = 0; x < image.naturalWidth; x++) {
+      for ( x = 0; x < canvas.width; x++) {
+        var index = parseInt(x + canvas.width * y) * 4;
+        resetPixelColor(imageData,index,gammaCorrection);
+      }
+    }
+    ctx.putImageData(imageData, 0, 0);
+    //var dataURL = canvas.toDataURL('image/png');
+  //}, 0);
+}
+ 
+function resetPixelColor(imageData,index,gammaCorrection) {
+  imageData.data[index + 0] = Math.pow(
+    (imageData.data[index + 0] / 255), gammaCorrection) * 255;
+  imageData.data[index + 1] = Math.pow(
+    (imageData.data[index + 1] / 255), gammaCorrection) * 255;
+  imageData.data[index + 2] = Math.pow(
+    (imageData.data[index + 2] / 255), gammaCorrection) * 255;
+}

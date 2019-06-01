@@ -56,14 +56,14 @@
 *	Responsive
  -------------------------------------*/
 
-@import url('https://fonts.googleapis.com/css?family=Muli:300,400,600,700,800,900');
+/*@import url('https://fonts.googleapis.com/css?family=Muli:300,400,600,700,800,900');*/
 /*---Bootstrap and General Elements---*/
 
 
 #ctrl-profile {
 	font-size: 14px;
 	color: #5c6287;
-	font-family: 'Muli', sans-serif;
+	font-family:  sans-serif;
 	background: #f7f7fa;
 	font-weight: 400;
 }
@@ -747,7 +747,7 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-chil
 	right: 0;
 	height: 56px;
 	content: '\f019';
-	font-family: fontawesome;
+	/*font-family: fontawesome;*/
 	margin: 0 auto;
 	font-size: 2em;
 }

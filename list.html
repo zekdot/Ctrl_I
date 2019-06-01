@@ -9,19 +9,33 @@
                 $('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
             });
 
-
-
-            getNextPage(0)
+            // 加载猜您喜欢
+            if(window.curUserInfo != null){
+                $('#blog-posts-section').append('<div class="head-section text-center"><h2>猜您喜欢</h2><span> </span></div>');
+                //alert('加载猜您喜欢！');
+                getFavouriteArts();
+            }else{
+                $('#blog-posts-section').append('<div class="head-section text-center"><h2>资讯列表</h2><span> </span></div>');
+                getNextPage(0)
+            }
+            
             //putArt('{"code":0,"message":"success","object":[{"aId":2,"author":"张兴旺","cover":"images/b2.jpg","title":"爱情是什么","cont":"在这个世上，只要不是完全的独身主义者，爱","time":"2019-04-13 16:20:07","readNum":0},{"aId":1,"author":"孟婷1234","cover":"images/b1.jpg","title":"三十多岁，如何打理尴尬年龄里的凌乱人生","cont":"三十岁是一个分水岭，一边是骄阳似火、山花","time":"2019-04-13 16:18:28","readNum":0}]}')
         });
 	</script>
 	<div class="container">
 		<div class="blog-posts-section" id="blog-posts-section">
+
+<!--             <div class="head-section text-center">
+                
+                <h2>猜您喜欢</h2>
+                <span> </span>
+            </div>
 			<!-- head-section -->
-			<div class="head-section text-center">
+<!-- 			<div class="head-section text-center">
+
 				<h2>资讯列表</h2>
 				<span> </span>
-			</div>
+			</div> --> 
 
 		</div>
 	</div>

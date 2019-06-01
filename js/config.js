@@ -1,3 +1,5 @@
+window.backhost = 'http://localhost';
+window.fronthost = 'http://localhost';
 /**
  * 设置canvas的display
  * @param value display的属性值

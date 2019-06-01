@@ -1,3 +1,6 @@
 *.zip
 group*
 *.bak
+model*
+*.sh
+*.old

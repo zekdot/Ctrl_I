@@ -1,10 +1,13 @@
 window.curLastId = 0;  //当前的最后一篇文章的id，用于翻页
 window.curLevel = 0;    //当前页面层级 0-文章列表页面 1-文章具体页面
 window.historyTop = 0;  //保存历史的滑动距离
+window.myFavArts = [];  //保存我喜欢的文章
 window.historyArts = [];    //保存历史的文章数据
 window.curUserInfo = null;  //用户信息对象
 window.curUserCookie = null;    //用户的cookies
 
+window.curArticleId = 0; // 当前读取的文章id
+window.curArticleType = null;   //当前读取的文章类型
 
 jQuery(document).ready(function($) {
 
@@ -18,6 +21,7 @@ jQuery(document).ready(function($) {
         // href="profile.html"
         $('#user_div').html('<p class = "user_text">欢迎您，</p><a style="cursor:pointer;" onclick="userCenter()" class = "user_text">' + window.curUserInfo.nickname + '</a><span></span><a onclick="logout()" style="cursor:pointer;" class = "small_user_text">登出</a>')
     }
+    //<button type="button" class="btn btn-primary btn-lg"><span class = "glyphicon glyphicon-user"></span> User</button>
             //putArt('{"code":0,"message":"success","object":[{"aId":2,"author":"张兴旺","cover":"images/b2.jpg","title":"爱情是什么","cont":"在这个世上，只要不是完全的独身主义者，爱","time":"2019-04-13 16:20:07","readNum":0},{"aId":1,"author":"孟婷1234","cover":"images/b1.jpg","title":"三十多岁，如何打理尴尬年龄里的凌乱人生","cont":"三十岁是一个分水岭，一边是骄阳似火、山花","time":"2019-04-13 16:18:28","readNum":0}]}')
 });
 
@@ -38,7 +42,7 @@ function logout(){
     // 清除登录相关的cookies
     deleteCookie("userInfo");
     deleteCookie("loginCoo");
-    window.location.href = 'http://localhost:8081/index.html';
+    window.location.href = window.fronthost + ':8081/index.html';
 }
 
 //window.curReadId = -1;  //当前阅读的文章id
@@ -86,6 +90,8 @@ function jumpToArt(id){
     window.articleId = id; 
     //设置当前层级位于文章具体页面
     window.curLevel = 1;    
+
+
     //window.curReadId = id; //设置当前的阅读id
 }
 /**
@@ -120,7 +126,7 @@ function backArtList(id){
             $('html,body').scrollTop(window.historyTop);
             //alert('fuckf')
             clearInterval(timer);
-        },300)
+        },1000)
             
             //alert($('html,body').scrollTop())
         
@@ -243,17 +249,83 @@ function getPageCallBack(str){
     }
 
 }
+
+// function getFavArtsCallBack(str){
+//     var data=eval('('+str+')');
+//     if(data.code!=0){
+//         //
+//         if(data.code == 1){
+//             window.curLastId = -1;
+//             alert(data.message);
+//         }else{
+//             alert(data.message);
+//         }
+//         return;
+//     }else{
+//         putArt(data.object)
+//     }   
+// }
+/**
+ * 获取可能喜欢的文章
+ *
+ */
+function getFavouriteArts(){
+    // 如果已经缓存了历史内容
+    if(window.myFavArts.length > 0){
+        //alert('已有猜您喜欢')
+        //直接放置页面
+        putArt(window.myFavArts,false);
+        $('#blog-posts-section').append('<div class="head-section text-center"><h2>资讯列表</h2><span> </span></div>');
+        getNextPage(0)
+    }else{
+        //alert('加载猜您喜欢')
+        // 向后台请求数据
+        document.cookie = 'JSESSIONID=' + window.curUserCookie;
+            //console.log(document.cookie)
+
+        $.ajax({
+            url : window.backhost + ':8082/recommend/todayRec',
+            dataType: 'json',
+            type : 'GET',
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
+
+            success: function(res) {
+                // alert(str)
+                // // 将返回值转换为json对象
+                // res = eval('(' + str + ')');
+                // 如果获取成功
+                if(res.code == 0){
+                    // 放置历史
+                    window.myFavArts = res.object;
+                    putArt(myFavArts,false);
+                    $('#blog-posts-section').append('<div class="head-section text-center"><h2>资讯列表</h2><span> </span></div>');
+                    getNextPage(0)
+                }else{
+
+                    alert(res.message);
+                }
+            }
+        })
+    }
+}
 /**
  * 得到下一页文章列表
  * @param lastId
  */
 function getNextPage(lastId){
     //alert(lastId)
+    //console.log('lastId is '+lastId+' window.historyArts.length '+window.historyArts.length)
     // 如果请求第一页并且已经有缓存了
-    if(lastId == 0 && historyArts.length > 0){
-        putArt(historyArts,false);
+    if(lastId == 0 && window.historyArts.length > 0){
+        putArt(window.historyArts,false);
+
     }else{
-        $.post('http://localhost:8082/article/list',{'lastId':lastId},getPageCallBack);        
+        //if(window.historyArts.length > 0)
+        //    return;
+        $.post(window.backhost + ':8082/article/list',{'lastId':lastId},getPageCallBack);        
     }
 
 }

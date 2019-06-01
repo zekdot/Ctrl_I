@@ -39,7 +39,8 @@ label{
 }
 /*-----start-header----*/
 .header {
-	background:#333131;
+	background:#317bc3;
+	padding-bottom:2em;
 }
 .logo {
 	float:left;
@@ -2360,5 +2361,6 @@ p.reply i{
 	float:right;
 	top:25px;
 	position: relative;
+	left:220px;
 }
 
