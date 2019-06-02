@@ -200,7 +200,7 @@ function moveTarget() {
     // 如果检测到了眼睛
     if(facetracker.isDetect == false){
         console.log('没有检测到眼睛')
-        cursor.left = $('body').width();
+        cursor.left = $('body').width()/2;
         cursor.top = $('body').height()/2;
         $('#target').css('left', cursor.left + 'px');
         $('#target').css('top', cursor.top + 'px');
@@ -272,7 +272,7 @@ function moveTarget() {
     // cursor.left = prediction[0] * ($('body').width() - $('#target').outerWidth());
     // cursor.top = prediction[1] * ($('body').height() - $('#target').outerWidth());
     cursor.left = prediction[0] * ($('body').width() - $('#target').outerWidth());
-    cursor.top = (prediction[1]+0.1)* ($(window).height() - $('#target').outerWidth()) + $(window).scrollTop();
+    cursor.top = (prediction[1])* ($(window).height() - $('#target').outerWidth()) + $(window).scrollTop();
 
     //if(cursor.top)
     //console.log(left)

@@ -43,7 +43,6 @@ window.emotion = {
 	    //console.log(rate('军事&社会',[1,1,1,1,1,1,1]))
 	    //console.log(window.curArticleType);
 	    //console.log(window.curArticleId);
-	    // TODO 将结果发送到后台
 
 	    // 放置cookie
 	    // ajax
@@ -59,7 +58,7 @@ window.emotion = {
 			var emotions = [emotionMap.anger,emotionMap.disgust,emotionMap.fear,emotionMap.happiness,emotionMap.neutral,emotionMap.sadness,emotionMap.surprise];
 			console.log(JSON.stringify(emotions))
 			var rate = emotion.getScore(window.curArticleType,emotions);
-
+            console.log('评分为'+rate);
 			// 构造数据
 			var data = {'aId':window.curArticleId,'rate':rate};
 

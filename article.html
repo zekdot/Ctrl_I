@@ -165,8 +165,11 @@
                     // // 将返回值转换为json对象
                     // res = eval('(' + str + ')');
                     // 如果提交成功
+                    
                     if(res.code == 0){
+                        $('#comment_text').val('')
                         refreshComment();
+                        
                     }else{
 
                         alert(res.message);
@@ -190,6 +193,18 @@
 
             
         });
+        $('#comment_text').focus(function(){
+            console.log('暂停眼部追踪');
+            window.config.eyeActive = false;
+            cursor.left = $('body').width()/2;
+            cursor.top = $('body').height()/2;
+            $('#target').css('left', cursor.left + 'px');
+            $('#target').css('top', cursor.top + 'px');
+        });
+        $('#comment_text').blur(function(){
+        console.log('重启眼部追踪');
+            window.config.eyeActive = true;
+        });        
 		//
 	</script>
 

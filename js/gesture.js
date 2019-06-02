@@ -22,7 +22,7 @@
     竖中指 Insult
 */
 
-const access_token = '24.e801c23f58cde5dad6988c08adff82a2.2592000.1559395919.282335-16158116';
+const access_token = '24.e7bda2bae462ed2694719d4b2de30948.2592000.1562048498.282335-16158116';
 // 一次向下移动是多少
 const GES_DOWN_DISTANCE = 200;
 
@@ -43,7 +43,7 @@ function dealGesture(json) {
                 // 跳过
                 continue;
             }
-            console.log(json.result[i].classname+' '+json.result[i].probability);
+            //console.log(json.result[i].classname+' '+json.result[i].probability);
             // 如果是4，代表向上
             if(config.gesturePageTurn && json.result[i].classname == 'Four'){
                 // 获取当前的滚动条位置
